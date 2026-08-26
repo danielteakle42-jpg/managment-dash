@@ -1,0 +1,18 @@
+V30 CHECKS
+
+- TypeScript: PASS (`tsc --noEmit`)
+- Daily metric pagination (>1000 rows): preserved
+- Date-agnostic daily rebuild / months / years: preserved
+- 5 incentive tiers: preserved
+- Arranged battle pairing + upcoming list: preserved
+- Earliest future date/time as Next Up: preserved
+- Dashboard poster dropdown: preserved
+- VOID group -> VOID poster: preserved
+- No group / non-VOID -> Platinum poster: preserved
+- Agency Chat: removed
+- Admin label: Owner
+- Owner auth: rebuilt to use a server-only Supabase service-role key, auto-repair the Owner Auth user and admin profile, then return a normal authenticated RLS session
+- Environment parsing: tolerates accidental quotes, NAME=value and Bearer prefixes for Supabase keys
+- Login layout: hardened against horizontal overflow on desktop/mobile
+
+A full Next.js SWC production compile could not run in the isolated build container because the available dependency cache only contains the Windows SWC binary and the container cannot download the Linux binary. TypeScript validation passed with the exact project dependency versions.

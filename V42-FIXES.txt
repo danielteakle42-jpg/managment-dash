@@ -1,0 +1,10 @@
+V42 deployment fixes
+
+- Fixed HeadersInit TypeScript errors in campaign-banners.tsx.
+- Fixed the same auth header return type in quick-manager.tsx.
+- Fixed manager-admin.tsx auth headers to use the native Headers object.
+- Fixed both notification API requests to use the native Headers object.
+- Node runtime remains pinned to 22.x for Vercel.
+- Campaign banner mobile save/share functionality remains included.
+
+The source was scanned to remove all remaining token ? { Authorization: ... } : {} request-header patterns that caused the Vercel type-check failures.

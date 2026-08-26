@@ -1,0 +1,21 @@
+V30 CLEAN DEPLOYMENT — ONLY FOUR VERCEL VARIABLES
+
+1) NEXT_PUBLIC_SUPABASE_URL
+   Supabase Project URL.
+
+2) NEXT_PUBLIC_SUPABASE_ANON_KEY
+   Supabase anon/public key.
+
+3) ADMIN_LOGIN_CODE
+   ppn777
+
+4) SUPABASE_SERVICE_ROLE_KEY
+   Supabase service_role key. KEEP THIS PRIVATE. It is server-side only and must never have NEXT_PUBLIC_ in its name.
+
+In Vercel, enable all four for Production, Preview and Development, then REDEPLOY.
+Put ONLY the value in each Value box. Do not paste NAME=value. Do not type Bearer before a key.
+
+The Owner email is built into this agency hub as admin@login.platinumpulse.app.
+On successful Owner login the server securely makes sure that Supabase account exists, synchronises its password to the Owner access code, ensures its profile role is admin, then creates the real authenticated Supabase session required by RLS.
+
+DO NOT commit .env.local. .gitignore already excludes .env*.

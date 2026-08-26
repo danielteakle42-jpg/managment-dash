@@ -1,0 +1,22 @@
+{
+  "name": "Platinum Pulse \u00d7 VOID Creator Hub",
+  "short_name": "Creator Hub",
+  "description": "Platinum Pulse \u00d7 VOID creator dashboard",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#03040b",
+  "theme_color": "#090b1d",
+  "icons": [
+    {
+      "src": "/app-icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

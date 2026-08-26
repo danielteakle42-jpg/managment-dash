@@ -1,0 +1,6 @@
+V43 changes:
+- Arranged battle poster Save poster button now uses native Web Share with PNG files on supported phones/tablets.
+- iPhone/iPad users get the native share sheet where Save Image / Save to Photos is available.
+- Android users get the native share sheet and can save/share the PNG.
+- Desktop and unsupported browsers fall back to a direct PNG download.
+- Existing campaign banner save support retained.
