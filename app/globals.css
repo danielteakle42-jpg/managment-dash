@@ -2101,3 +2101,6 @@ html,body{max-width:100%;overflow-x:hidden}
 
 .manager-control-tabs {display:flex;flex-wrap:wrap;gap:.75rem;margin-bottom:1.5rem;}
 .manager-control-tabs button {min-height:44px;}
+
+.manager-search-row{display:flex;flex-wrap:wrap;align-items:center;gap:1rem;margin:1.25rem 0;}
+.manager-search-row input{flex:1;min-width:200px;}

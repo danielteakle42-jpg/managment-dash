@@ -14,8 +14,8 @@ export async function POST(request: Request) {
 
     // Manager passwords remain in Supabase Auth. We never copy them into creator_metrics or profiles.
     const admin=createClient(url,service,{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}});
-    const {data:profiles,error:profileError}=await admin.from('profiles').select('*').eq('role','manager');
-    if(profileError) throw profileError;
+    const profiles=[];const pageSize=1000;
+    for(let from=0;;from+=pageSize){const {data,error}=await admin.from('profiles').select('*').eq('role','manager').order('id').range(from,from+pageSize-1);if(error)throw error;profiles.push(...(data||[]));if(!data||data.length<pageSize)break;}
     const auth=createClient(url,anon,{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}});
 
     // Each manager has a private Supabase Auth account. Try the entered password only against manager accounts.

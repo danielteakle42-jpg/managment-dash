@@ -44,7 +44,7 @@ import {CreatorCampaignBanners, AdminCampaignBanners} from "./campaign-banners";
 const CAMPAIGN_URL =
   "https://www.tiktok.com/live/reflow/campaign-center?coverUrl=https%3A%2F%2Fp16-webcast-no.tiktokcdn-eu.com%2Fwebcast-no%2Fsub_d1ac9258960e10508e90a238856c248ffdc926aa624dad8ffc4acde2078d9979_1784292650354917~tplv-obj.png&enter_from_merge=live_take_page_campaign_center_new";
 
-type View = "dashboard" | "leaderboard" | "incentives" | "arrangedBattles" | "managerChat" | "admin" | "assistant" | "managerControl";
+type View = "dashboard" | "leaderboard" | "incentives" | "arrangedBattles" | "managerChat" | "admin" | "assistant" | "managerControl" | "managers";
 type SortMetric = "diamonds" | "live_minutes" | "valid_live_days";
 
 
@@ -368,7 +368,7 @@ function AppShell({
 }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const baseNavigation = profile.role === "creator" ? navigation : [...navigation, {id: "managerControl" as View, label: "Manager Control", icon: ShieldCheck}, {id: "assistant" as View, label: "Platinum Assistant", icon: Sparkles}];
-  const items = profile.role === "admin" ? [...baseNavigation, { id: "admin" as View, label: "Admin", icon: ShieldCheck }] : baseNavigation;
+  const items = profile.role === "admin" ? [...baseNavigation, { id: "managers" as View, label: "Managers", icon: Users }, { id: "admin" as View, label: "Admin", icon: ShieldCheck }] : baseNavigation;
   const ownRecord = records.find((item) => cleanUsername(item.username) === cleanUsername(profile.tiktok_username || profile.username));
 
   return (
@@ -934,7 +934,6 @@ function Admin({
     <>
       <section className="page-heading"><div><p className="eyebrow">Secure controls</p><h1>Agency admin</h1><p>Import, review, correct and export creator performance from one place.</p></div><span className={`connection-pill ${configured ? "connected" : ""}`}><i />{configured ? "Supabase connected" : "Setup required"}</span></section>
       <AdminCampaignBanners />
-      <ManagerAdmin />
       <section className="stats-grid admin-stats">
         <StatCard icon={Users} label="Creators" value={records.length.toLocaleString()} note="Tracked accounts" tone="blue" />
         <StatCard icon={Gem} label="Total diamonds" value={totals.diamonds.toLocaleString()} note="Across current data" tone="violet" />
@@ -1177,6 +1176,7 @@ export default function Home() {
       {current === "managerChat" && <>{profile.role === "creator" ? <QuickManager profile={profile} /> : <StaffInbox profile={profile} />}<details className="panel combined-help"><summary><LifeBuoy size={18} /> Ban help</summary><BanHelp /></details></>}
       {current === "managerControl" && profile.role !== "creator" && <ManagerControl profile={profile} records={records} onBattlesChanged={() => refreshUpcomingBattle(profile)} />}
       {current === "assistant" && profile.role !== "creator" && <PlatinumAssistant profile={profile} onLinked={() => loadData(profile)} />}
+      {current === "managers" && profile.role === "admin" && <><section className="page-heading"><div><p className="eyebrow">Owner controls</p><h1>Managers</h1><p>Create manager accounts, assign passwords and link their TikTok profiles.</p></div></section><ManagerAdmin /></>}
       {current === "admin" && profile.role === "admin" && <Admin records={records} dailyRecords={dailyRecords} refresh={() => loadData(profile)} configured={supabaseConfigured} />}
     </AppShell>
   );
