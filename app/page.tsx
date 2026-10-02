@@ -37,12 +37,13 @@ import { supabase, supabaseConfigured } from "./supabase";
 import { QuickManager, StaffInbox } from "./quick-manager";
 import ManagerAdmin from "./manager-admin";
 import Notifications from "./notifications";
+import PlatinumAssistant from "./platinum-assistant";
 import {CreatorCampaignBanners, AdminCampaignBanners} from "./campaign-banners";
 
 const CAMPAIGN_URL =
   "https://www.tiktok.com/live/reflow/campaign-center?coverUrl=https%3A%2F%2Fp16-webcast-no.tiktokcdn-eu.com%2Fwebcast-no%2Fsub_d1ac9258960e10508e90a238856c248ffdc926aa624dad8ffc4acde2078d9979_1784292650354917~tplv-obj.png&enter_from_merge=live_take_page_campaign_center_new";
 
-type View = "dashboard" | "leaderboard" | "incentives" | "arrangedBattles" | "managerChat" | "admin";
+type View = "dashboard" | "leaderboard" | "incentives" | "arrangedBattles" | "managerChat" | "admin" | "assistant";
 type SortMetric = "diamonds" | "live_minutes" | "valid_live_days";
 
 
@@ -365,9 +366,9 @@ function AppShell({
   children: React.ReactNode;
 }) {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const baseNavigation = navigation;
+  const baseNavigation = profile.role === "creator" ? navigation : [...navigation, {id: "assistant" as View, label: "Platinum Assistant", icon: Sparkles}];
   const items = profile.role === "admin" ? [...baseNavigation, { id: "admin" as View, label: "Admin", icon: ShieldCheck }] : baseNavigation;
-  const ownRecord = records.find((item) => cleanUsername(item.username) === cleanUsername(profile.username));
+  const ownRecord = records.find((item) => cleanUsername(item.username) === cleanUsername(profile.tiktok_username || profile.username));
 
   return (
     <div className="app-shell">
@@ -991,6 +992,7 @@ export default function Home() {
 
   const loadData = async (nextProfile = profile) => {
     if (!supabase || !nextProfile) return;
+    if(nextProfile.role !== "creator"){const {data:session}=await supabase.auth.getSession();if(session.session){const {data:updated}=await supabase.from("profiles").select("*").eq("id",session.session.user.id).single();if(updated)setProfile(updated as Profile);}}
     const [{ data, error: loadError }, { data: dailyData, error: dailyError }] = await Promise.all([
       supabase.from("creator_metrics").select("*").order("diamonds", { ascending: false }),
       fetchAllDailyMetrics(),
@@ -1044,7 +1046,7 @@ export default function Home() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ code }),
       });
-      const result = (await response.json()) as { access_token?: string; refresh_token?: string; error?: string };
+      const result = (await response.json()) as { access_token?: string; refresh_token?: string; user_id?: string; error?: string };
       if (!response.ok || !result.access_token || !result.refresh_token) {
         setBusy(false);
         return setError(result.error || "Owner login failed.");
@@ -1057,7 +1059,8 @@ export default function Home() {
         setBusy(false);
         return setError(sessionError?.message || "Owner session could not be started.");
       }
-      const next: Profile = { username: "owner", display_name: "Owner", role: "admin" };
+      const {data: ownerProfile} = await supabase.from("profiles").select("*").eq("id", result.user_id).single();
+        const next: Profile = ownerProfile || { username: "owner", display_name: "Owner", role: "admin" };
       window.localStorage.removeItem("ppv_creator");
       setProfile(next);
       setCurrent("admin");
@@ -1107,7 +1110,8 @@ export default function Home() {
       if (ownerResponse.ok && ownerResult.access_token && ownerResult.refresh_token) {
         const { error: sessionError } = await supabase.auth.setSession({ access_token: ownerResult.access_token, refresh_token: ownerResult.refresh_token });
         if (sessionError) throw sessionError;
-        const next: Profile = { username: "owner", display_name: "Owner", role: "admin" };
+        const {data: ownerProfile} = await supabase.from("profiles").select("*").eq("id", ownerResult.user_id).single();
+        const next: Profile = ownerProfile || { username: "owner", display_name: "Owner", role: "admin" };
         window.localStorage.removeItem("ppv_creator"); setProfile(next); setCurrent("admin"); await loadData(next); setBusy(false); return;
       }
 
@@ -1159,14 +1163,18 @@ export default function Home() {
   const availableMonths = savedMonths.length ? savedMonths : [currentMonth];
   const effectiveMonth = availableMonths.includes(selectedMonth) ? selectedMonth : availableMonths[0];
   const monthlyRecords = monthlyRecordsFor(records, dailyRecords, effectiveMonth);
-  const currentRecord = monthlyRecords.find((item) => cleanUsername(item.username) === cleanUsername(profile.username)) || monthlyRecords[0] || emptyEdit;
+  const linkedUsername = profile.tiktok_username || (profile.role === "creator" ? profile.username : "");
+  const currentRecord = monthlyRecords.find((item) => cleanUsername(item.username) === cleanUsername(linkedUsername)) || {...emptyEdit, username: linkedUsername};
+  const dataProfile = {...profile, username: linkedUsername || profile.username};
   return (
     <AppShell profile={profile} records={records} current={current} setCurrent={setCurrent} onLogout={logout}>
-      {current === "dashboard" && <Dashboard profile={profile} record={currentRecord} dailyRecords={dailyRecords.filter((item) => cleanUsername(item.username) === cleanUsername(profile.username))} availableMonths={availableMonths} selectedMonth={effectiveMonth} setSelectedMonth={setSelectedMonth} upcomingBattle={upcomingBattle} records={records} onViewBattles={() => setCurrent("arrangedBattles")} />}
+      {current === "dashboard" && profile.role !== "creator" && !profile.tiktok_username && <section className="panel"><h2>Link your TikTok account</h2><p>The owner can link your TikTok username in Manager accounts to show your personal performance here.</p></section>}
+      {current === "dashboard" && <Dashboard profile={dataProfile} record={currentRecord} dailyRecords={dailyRecords.filter((item) => cleanUsername(item.username) === cleanUsername(profile.tiktok_username || profile.username))} availableMonths={availableMonths} selectedMonth={effectiveMonth} setSelectedMonth={setSelectedMonth} upcomingBattle={upcomingBattle} records={records} onViewBattles={() => setCurrent("arrangedBattles")} />}
       {current === "leaderboard" && <Leaderboard records={monthlyRecords} currentUsername={profile.username} availableMonths={availableMonths} selectedMonth={effectiveMonth} setSelectedMonth={setSelectedMonth} />}
       {current === "incentives" && <>{profile.role !== "manager" && <Incentives record={currentRecord} />}<Campaigns />{profile.role !== "creator" && <AdminCampaignBanners />}</>}
       {current === "arrangedBattles" && <ArrangedBattles profile={profile} records={records} onBattlesChanged={() => refreshUpcomingBattle(profile)} />}
       {current === "managerChat" && <>{profile.role === "creator" ? <QuickManager profile={profile} /> : <StaffInbox profile={profile} />}<details className="panel combined-help"><summary><LifeBuoy size={18} /> Ban help</summary><BanHelp /></details></>}
+      {current === "assistant" && profile.role !== "creator" && <PlatinumAssistant profile={profile} onLinked={() => loadData(profile)} />}
       {current === "admin" && profile.role === "admin" && <Admin records={records} dailyRecords={dailyRecords} refresh={() => loadData(profile)} configured={supabaseConfigured} />}
     </AppShell>
   );

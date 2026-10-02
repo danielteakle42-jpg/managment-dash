@@ -85,6 +85,7 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.json({
+      user_id: owner.id,
       access_token: signIn.session.access_token,
       refresh_token: signIn.session.refresh_token,
     });

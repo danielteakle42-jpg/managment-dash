@@ -27,6 +27,7 @@ export type Profile = {
   display_name?: string;
   role: Role;
   manager_group?: string;
+  tiktok_username?: string | null;
 };
 
 export function cleanUsername(username: string) {
