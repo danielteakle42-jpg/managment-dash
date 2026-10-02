@@ -344,9 +344,9 @@ function Login({
 const navigation = [
   { id: "dashboard" as View, label: "My progress", icon: LayoutDashboard },
   { id: "leaderboard" as View, label: "Leaderboard", icon: Trophy },
-  { id: "incentives" as View, label: "Incentives", icon: Award },
+  { id: "incentives" as View, label: "Incentives/Campaign", icon: Award },
   { id: "arrangedBattles" as View, label: "Arranged Battles", icon: Swords },
-  { id: "managerChat" as View, label: "Message Manager", icon: MessageCircle },
+  { id: "managerChat" as View, label: "Message Manager/Ban Help", icon: MessageCircle },
 ];
 
 function AppShell({
