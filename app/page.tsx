@@ -980,7 +980,7 @@ export default function Home() {
   const today = new Date();
   const currentMonth = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}`;
   const [selectedMonth, setSelectedMonth] = useState(currentMonth);
-  const [current, setCurrent] = useState<View>("dashboard");
+  const [current, setCurrent] = useState<View>(() => typeof window !== "undefined" && new URLSearchParams(window.location.search).get("view") === "assistant" ? "assistant" : "dashboard");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [upcomingBattle, setUpcomingBattle] = useState<UpcomingBattle | null>(null);
@@ -1142,7 +1142,7 @@ export default function Home() {
       if (found) {
         const next = found as Profile;
         setProfile(next);
-        if (next.role === "manager") setCurrent("managerChat");
+        if (next.role === "manager" && new URLSearchParams(window.location.search).get("view") !== "assistant") setCurrent("managerChat");
         await loadData(next);
       }
     });
@@ -1167,7 +1167,7 @@ export default function Home() {
   const currentRecord = monthlyRecords.find((item) => cleanUsername(item.username) === cleanUsername(linkedUsername)) || {...emptyEdit, username: linkedUsername};
   const dataProfile = {...profile, username: linkedUsername || profile.username};
   return (
-    <AppShell profile={profile} records={records} current={current} setCurrent={setCurrent} onLogout={logout}>
+    <AppShell profile={profile} records={records} current={current} setCurrent={(view) => {setCurrent(view);const url=new URL(window.location.href);if(view==="assistant")url.searchParams.set("view","assistant");else {url.searchParams.delete("view");url.searchParams.delete("assistantTab");}window.history.replaceState({},"",url.pathname+url.search);}} onLogout={logout}>
       {current === "dashboard" && profile.role !== "creator" && !profile.tiktok_username && <section className="panel"><h2>Link your TikTok account</h2><p>The owner can link your TikTok username in Manager accounts to show your personal performance here.</p></section>}
       {current === "dashboard" && <Dashboard profile={dataProfile} record={currentRecord} dailyRecords={dailyRecords.filter((item) => cleanUsername(item.username) === cleanUsername(profile.tiktok_username || profile.username))} availableMonths={availableMonths} selectedMonth={effectiveMonth} setSelectedMonth={setSelectedMonth} upcomingBattle={upcomingBattle} records={records} onViewBattles={() => setCurrent("arrangedBattles")} />}
       {current === "leaderboard" && <Leaderboard records={monthlyRecords} currentUsername={profile.username} availableMonths={availableMonths} selectedMonth={effectiveMonth} setSelectedMonth={setSelectedMonth} />}
