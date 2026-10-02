@@ -42,7 +42,7 @@ import {CreatorCampaignBanners, AdminCampaignBanners} from "./campaign-banners";
 const CAMPAIGN_URL =
   "https://www.tiktok.com/live/reflow/campaign-center?coverUrl=https%3A%2F%2Fp16-webcast-no.tiktokcdn-eu.com%2Fwebcast-no%2Fsub_d1ac9258960e10508e90a238856c248ffdc926aa624dad8ffc4acde2078d9979_1784292650354917~tplv-obj.png&enter_from_merge=live_take_page_campaign_center_new";
 
-type View = "dashboard" | "leaderboard" | "incentives" | "campaigns" | "banHelp" | "arrangedBattles" | "managerChat" | "admin";
+type View = "dashboard" | "leaderboard" | "incentives" | "arrangedBattles" | "managerChat" | "admin";
 type SortMetric = "diamonds" | "live_minutes" | "valid_live_days";
 
 
@@ -345,10 +345,8 @@ const navigation = [
   { id: "dashboard" as View, label: "My progress", icon: LayoutDashboard },
   { id: "leaderboard" as View, label: "Leaderboard", icon: Trophy },
   { id: "incentives" as View, label: "Incentives", icon: Award },
-  { id: "campaigns" as View, label: "Campaigns", icon: Megaphone },
-  { id: "banHelp" as View, label: "Ban help", icon: LifeBuoy },
   { id: "arrangedBattles" as View, label: "Arranged Battles", icon: Swords },
-  { id: "managerChat" as View, label: "Quick Manager", icon: MessageCircle },
+  { id: "managerChat" as View, label: "Message Manager", icon: MessageCircle },
 ];
 
 function AppShell({
@@ -367,7 +365,7 @@ function AppShell({
   children: React.ReactNode;
 }) {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const baseNavigation = profile.role === "manager" ? navigation.filter((item) => !["incentives", "banHelp"].includes(item.id)) : navigation;
+  const baseNavigation = navigation;
   const items = profile.role === "admin" ? [...baseNavigation, { id: "admin" as View, label: "Admin", icon: ShieldCheck }] : baseNavigation;
   const ownRecord = records.find((item) => cleanUsername(item.username) === cleanUsername(profile.username));
 
@@ -1166,11 +1164,9 @@ export default function Home() {
     <AppShell profile={profile} records={records} current={current} setCurrent={setCurrent} onLogout={logout}>
       {current === "dashboard" && <Dashboard profile={profile} record={currentRecord} dailyRecords={dailyRecords.filter((item) => cleanUsername(item.username) === cleanUsername(profile.username))} availableMonths={availableMonths} selectedMonth={effectiveMonth} setSelectedMonth={setSelectedMonth} upcomingBattle={upcomingBattle} records={records} onViewBattles={() => setCurrent("arrangedBattles")} />}
       {current === "leaderboard" && <Leaderboard records={monthlyRecords} currentUsername={profile.username} availableMonths={availableMonths} selectedMonth={effectiveMonth} setSelectedMonth={setSelectedMonth} />}
-      {current === "incentives" && <Incentives record={currentRecord} />}
-      {current === "campaigns" && <Campaigns />}
-      {current === "banHelp" && <BanHelp />}
+      {current === "incentives" && <>{profile.role !== "manager" && <Incentives record={currentRecord} />}<Campaigns />{profile.role !== "creator" && <AdminCampaignBanners />}</>}
       {current === "arrangedBattles" && <ArrangedBattles profile={profile} records={records} onBattlesChanged={() => refreshUpcomingBattle(profile)} />}
-      {current === "managerChat" && (profile.role === "creator" ? <QuickManager profile={profile} /> : <><StaffInbox profile={profile} /><AdminCampaignBanners /></>)}
+      {current === "managerChat" && <>{profile.role === "creator" ? <QuickManager profile={profile} /> : <StaffInbox profile={profile} />}<details className="panel combined-help"><summary><LifeBuoy size={18} /> Ban help</summary><BanHelp /></details></>}
       {current === "admin" && profile.role === "admin" && <Admin records={records} dailyRecords={dailyRecords} refresh={() => loadData(profile)} configured={supabaseConfigured} />}
     </AppShell>
   );

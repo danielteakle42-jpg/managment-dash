@@ -2030,3 +2030,8 @@ html,body{max-width:100%;overflow-x:hidden}
   font-size: 0.9rem;
   color: var(--muted, #9fb3c8);
 }
+
+/* Ban support stays available without adding another navigation page. */
+.combined-help { margin-top: 1.5rem; }
+.combined-help > summary { display: flex; align-items: center; gap: .65rem; cursor: pointer; font-size: 1rem; font-weight: 600; }
+.combined-help[open] > summary { margin-bottom: 1.5rem; }
