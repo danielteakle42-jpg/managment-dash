@@ -2098,3 +2098,6 @@ html,body{max-width:100%;overflow-x:hidden}
 .platinum-assistant { position:relative; min-height:70vh; }
 .platinum-assistant .nav {position:sticky; bottom:70px; margin:auto; width:100%; transform:none; left:auto;}
 .platinum-assistant .quickFabWrap {position:absolute; bottom:100px; right:16px;}
+
+.manager-control-tabs {display:flex;flex-wrap:wrap;gap:.75rem;margin-bottom:1.5rem;}
+.manager-control-tabs button {min-height:44px;}

@@ -38,12 +38,13 @@ import { QuickManager, StaffInbox } from "./quick-manager";
 import ManagerAdmin from "./manager-admin";
 import Notifications from "./notifications";
 import PlatinumAssistant from "./platinum-assistant";
+import ManagerControl from "./manager-control";
 import {CreatorCampaignBanners, AdminCampaignBanners} from "./campaign-banners";
 
 const CAMPAIGN_URL =
   "https://www.tiktok.com/live/reflow/campaign-center?coverUrl=https%3A%2F%2Fp16-webcast-no.tiktokcdn-eu.com%2Fwebcast-no%2Fsub_d1ac9258960e10508e90a238856c248ffdc926aa624dad8ffc4acde2078d9979_1784292650354917~tplv-obj.png&enter_from_merge=live_take_page_campaign_center_new";
 
-type View = "dashboard" | "leaderboard" | "incentives" | "arrangedBattles" | "managerChat" | "admin" | "assistant";
+type View = "dashboard" | "leaderboard" | "incentives" | "arrangedBattles" | "managerChat" | "admin" | "assistant" | "managerControl";
 type SortMetric = "diamonds" | "live_minutes" | "valid_live_days";
 
 
@@ -366,7 +367,7 @@ function AppShell({
   children: React.ReactNode;
 }) {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const baseNavigation = profile.role === "creator" ? navigation : [...navigation, {id: "assistant" as View, label: "Platinum Assistant", icon: Sparkles}];
+  const baseNavigation = profile.role === "creator" ? navigation : [...navigation, {id: "managerControl" as View, label: "Manager Control", icon: ShieldCheck}, {id: "assistant" as View, label: "Platinum Assistant", icon: Sparkles}];
   const items = profile.role === "admin" ? [...baseNavigation, { id: "admin" as View, label: "Admin", icon: ShieldCheck }] : baseNavigation;
   const ownRecord = records.find((item) => cleanUsername(item.username) === cleanUsername(profile.tiktok_username || profile.username));
 
@@ -1171,9 +1172,10 @@ export default function Home() {
       {current === "dashboard" && profile.role !== "creator" && !profile.tiktok_username && <section className="panel"><h2>Link your TikTok account</h2><p>The owner can link your TikTok username in Manager accounts to show your personal performance here.</p></section>}
       {current === "dashboard" && <Dashboard profile={dataProfile} record={currentRecord} dailyRecords={dailyRecords.filter((item) => cleanUsername(item.username) === cleanUsername(profile.tiktok_username || profile.username))} availableMonths={availableMonths} selectedMonth={effectiveMonth} setSelectedMonth={setSelectedMonth} upcomingBattle={upcomingBattle} records={records} onViewBattles={() => setCurrent("arrangedBattles")} />}
       {current === "leaderboard" && <Leaderboard records={monthlyRecords} currentUsername={profile.username} availableMonths={availableMonths} selectedMonth={effectiveMonth} setSelectedMonth={setSelectedMonth} />}
-      {current === "incentives" && <><Incentives record={currentRecord} /><Campaigns />{profile.role !== "creator" && <AdminCampaignBanners />}</>}
+      {current === "incentives" && <><Incentives record={currentRecord} /><Campaigns /></>}
       {current === "arrangedBattles" && <ArrangedBattles profile={profile} records={records} onBattlesChanged={() => refreshUpcomingBattle(profile)} />}
       {current === "managerChat" && <>{profile.role === "creator" ? <QuickManager profile={profile} /> : <StaffInbox profile={profile} />}<details className="panel combined-help"><summary><LifeBuoy size={18} /> Ban help</summary><BanHelp /></details></>}
+      {current === "managerControl" && profile.role !== "creator" && <ManagerControl profile={profile} records={records} onBattlesChanged={() => refreshUpcomingBattle(profile)} />}
       {current === "assistant" && profile.role !== "creator" && <PlatinumAssistant profile={profile} onLinked={() => loadData(profile)} />}
       {current === "admin" && profile.role === "admin" && <Admin records={records} dailyRecords={dailyRecords} refresh={() => loadData(profile)} configured={supabaseConfigured} />}
     </AppShell>
