@@ -16,3 +16,6 @@ insert into storage.buckets(id,name,public,file_size_limit,allowed_mime_types)
 values('campaign-banners','campaign-banners',true,8388608,array['image/jpeg','image/png','image/webp'])
 on conflict(id) do update set public=true,file_size_limit=8388608,allowed_mime_types=excluded.allowed_mime_types;
 commit;
+
+-- Optional creator identity for each staff login; staff permissions stay separate.
+alter table public.profiles add column if not exists tiktok_username text;

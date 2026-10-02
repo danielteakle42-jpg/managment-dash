@@ -4,7 +4,7 @@ const clean=(v:unknown)=>String(v||'').trim().replace(/^@/,'').toLowerCase();
 async function checkedTikTok(db:ReturnType<typeof serverClient>,value:unknown){
  const username=clean(value); if(!username)return null;
  if(!/^[a-z0-9._]{1,64}$/.test(username))throw new Error('Enter a valid TikTok username.');
- const {data,error}=await db.from('creator_metrics').select('username').ilike('username',username).limit(1);
+ const {data,error}=await db.from('creator_metrics').select('username').ilike('username',username.replace(/[_%\\]/g,'\\$&')).limit(1);
  if(error)throw error;if(!data?.length)throw new Error('That TikTok username is not in the uploaded creator data.');
  return clean(data[0].username);
 }
