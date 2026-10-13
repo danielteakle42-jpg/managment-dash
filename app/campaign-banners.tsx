@@ -1,7 +1,9 @@
 "use client";
 import {useEffect,useRef,useState} from "react";
-import {Download, Megaphone, Share2, Trash2, Upload} from "lucide-react";
+import {Download, ExternalLink, Megaphone, Share2, Trash2, Upload} from "lucide-react";
 import {supabase} from "./supabase";
+
+const CAMPAIGN_URL="https://www.tiktok.com/live/reflow/campaign-center?coverUrl=https%3A%2F%2Fp16-webcast-no.tiktokcdn-eu.com%2Fwebcast-no%2Fsub_d1ac9258960e10508e90a238856c248ffdc926aa624dad8ffc4acde2078d9979_1784292650354917~tplv-obj.png&enter_from_merge=live_take_page_campaign_center_new";
 
 async function authHeaders(): Promise<Headers>{
   const headers = new Headers();
@@ -27,8 +29,6 @@ async function saveBanner(b:Banner,setStatus:(value:string)=>void){
     const blob=await response.blob();
     const file=new File([blob],safeFileName(b.title,blob.type),{type:blob.type||"image/jpeg"});
 
-    // On iPhone/iPad/Android, the native share sheet is the most reliable way
-    // to save a web image into Photos / camera roll.
     if(typeof navigator!=="undefined" && navigator.share && (!navigator.canShare || navigator.canShare({files:[file]}))){
       try{
         await navigator.share({files:[file],title:b.title});
@@ -39,7 +39,6 @@ async function saveBanner(b:Banner,setStatus:(value:string)=>void){
           setStatus("");
           return;
         }
-        // If native sharing fails, continue to the normal download fallback.
       }
     }
 
@@ -54,7 +53,6 @@ async function saveBanner(b:Banner,setStatus:(value:string)=>void){
     window.setTimeout(()=>URL.revokeObjectURL(objectUrl),1500);
     setStatus("Banner saved to your device downloads.");
   }catch{
-    // Last-resort fallback keeps the image accessible even on restrictive browsers.
     window.open(b.image_url,"_blank","noopener,noreferrer");
     setStatus("Banner opened. Press and hold the image to save it to Photos.");
   }
@@ -65,23 +63,28 @@ export function CreatorCampaignBanners(){
   const [saving,setSaving]=useState<number|null>(null);
   const [status,setStatus]=useState<Record<number,string>>({});
   useEffect(()=>{fetch('/api/campaign-banners').then(r=>r.json()).then(x=>setItems(x.banners||[])).catch(()=>{})},[]);
-  if(!items.length)return null;
   const runSave=async(b:Banner)=>{
     setSaving(b.id);
     await saveBanner(b,(value)=>setStatus(prev=>({...prev,[b.id]:value})));
     setSaving(null);
   };
   return <details className="panel dashboard-dropdown campaign-banner-panel">
-    <summary className="dashboard-dropdown-summary"><div className="dropdown-summary-copy"><span className="dropdown-summary-icon"><Megaphone size={18}/></span><div><p className="eyebrow">Management campaigns</p><h2>Campaign banners</h2><p>Open to view and save the latest campaign artwork from management.</p></div></div><span className="dropdown-chevron" aria-hidden="true"/></summary>
-    <div className="dashboard-dropdown-content campaign-banner-list">{items.map(b=><article key={b.id} className="campaign-banner-card">
-      <h3>{b.title}</h3>
-      <img src={b.image_url} alt={b.title}/>
-      <div className="campaign-banner-save-row">
-        <button className="primary-button campaign-save-button" type="button" disabled={saving===b.id} onClick={()=>void runSave(b)}>{saving===b.id?<><Download size={16}/> Preparing…</>:<><Share2 size={16}/> Save banner</>}</button>
-        <small>{status[b.id]||"On mobile, tap Save banner then choose Save Image / Save to Photos."}</small>
+    <summary className="dashboard-dropdown-summary"><div className="dropdown-summary-copy"><span className="dropdown-summary-icon"><Megaphone size={18}/></span><div><p className="eyebrow">Campaigns</p><h2>Campaign centre & banners</h2><p>Campaign artwork and TikTok opportunities together in one place.</p></div></div><span className="dropdown-chevron" aria-hidden="true"/></summary>
+    <div className="dashboard-dropdown-content campaign-banner-list">
+      <div className="campaign-centre-inline">
+        <div><span className="eyebrow">TikTok LIVE</span><h3>Open Campaign Centre</h3><p>Check active campaigns, eligibility and requirements without leaving your creator workflow.</p></div>
+        <a className="primary-button campaign-centre-button" href={CAMPAIGN_URL} target="_blank" rel="noreferrer">Open campaigns <ExternalLink size={16}/></a>
       </div>
-    </article>)}</div>
+      {items.length?items.map(b=><article key={b.id} className="campaign-banner-card">
+        <h3>{b.title}</h3>
+        <img src={b.image_url} alt={b.title}/>
+        <div className="campaign-banner-save-row">
+          <button className="primary-button campaign-save-button" type="button" disabled={saving===b.id} onClick={()=>void runSave(b)}>{saving===b.id?<><Download size={16}/> Preparing…</>:<><Share2 size={16}/> Save banner</>}</button>
+          <small>{status[b.id]||"On mobile, tap Save banner then choose Save Image / Save to Photos."}</small>
+        </div>
+      </article>):<div className="campaign-empty-inline">No management banner is live right now. You can still open TikTok Campaign Centre above.</div>}
+    </div>
   </details>
 }
 
-export function AdminCampaignBanners(){const input=useRef<HTMLInputElement>(null);const [items,setItems]=useState<Banner[]>([]);const [title,setTitle]=useState('');const [msg,setMsg]=useState('');const load=()=>fetch('/api/campaign-banners').then(r=>r.json()).then(x=>setItems(x.banners||[]));useEffect(()=>{load()},[]);const upload=async()=>{const file=input.current?.files?.[0];if(!file)return setMsg('Choose a banner image first.');const fd=new FormData();fd.append('file',file);fd.append('title',title||file.name.replace(/\.[^.]+$/,''));const r=await fetch('/api/campaign-banners',{method:'POST',headers:await authHeaders(),body:fd});const x=await r.json();setMsg(x.error||'Campaign banner uploaded.');if(r.ok){setTitle('');if(input.current)input.current.value='';load()}};const remove=async(id:number)=>{if(!confirm('Remove this campaign banner?'))return;const headers=await authHeaders();headers.set('Content-Type','application/json');await fetch('/api/campaign-banners',{method:'DELETE',headers,body:JSON.stringify({id})});load()};return <section className="panel campaign-admin-panel"><div className="quick-chat-head"><Megaphone/><div><h2>Creator campaign banners</h2><p>Upload banners here and they appear as a dropdown directly under creators’ arranged-battle poster.</p></div></div><div className="campaign-upload-row"><input value={title} onChange={e=>setTitle(e.target.value)} placeholder="Campaign title"/><input ref={input} type="file" accept="image/png,image/jpeg,image/webp"/><button className="primary-button" type="button" onClick={upload}><Upload size={16}/> Upload banner</button></div>{msg&&<div className="admin-message">{msg}</div>}<div className="campaign-admin-list">{items.map(b=><div key={b.id}><span><b>{b.title}</b><small>{new Date(b.created_at).toLocaleDateString('en-GB')}</small></span><button className="danger-button" onClick={()=>remove(b.id)}><Trash2 size={15}/> Remove</button></div>)}</div></section>}
+export function AdminCampaignBanners(){const input=useRef<HTMLInputElement>(null);const [items,setItems]=useState<Banner[]>([]);const [title,setTitle]=useState('');const [msg,setMsg]=useState('');const load=()=>fetch('/api/campaign-banners').then(r=>r.json()).then(x=>setItems(x.banners||[]));useEffect(()=>{load()},[]);const upload=async()=>{const file=input.current?.files?.[0];if(!file)return setMsg('Choose a banner image first.');const fd=new FormData();fd.append('file',file);fd.append('title',title||file.name.replace(/\.[^.]+$/,''));const r=await fetch('/api/campaign-banners',{method:'POST',headers:await authHeaders(),body:fd});const x=await r.json();setMsg(x.error||'Campaign banner uploaded.');if(r.ok){setTitle('');if(input.current)input.current.value='';load()}};const remove=async(id:number)=>{if(!confirm('Remove this campaign banner?'))return;const headers=await authHeaders();headers.set('Content-Type','application/json');await fetch('/api/campaign-banners',{method:'DELETE',headers,body:JSON.stringify({id})});load()};return <section className="panel campaign-admin-panel"><div className="quick-chat-head"><Megaphone/><div><h2>Creator campaign banners</h2><p>Upload banners here and they appear inside the creators’ combined Campaign Centre card.</p></div></div><div className="campaign-upload-row"><input value={title} onChange={e=>setTitle(e.target.value)} placeholder="Campaign title"/><input ref={input} type="file" accept="image/png,image/jpeg,image/webp"/><button className="primary-button" type="button" onClick={upload}><Upload size={16}/> Upload banner</button></div>{msg&&<div className="admin-message">{msg}</div>}<div className="campaign-admin-list">{items.map(b=><div key={b.id}><span><b>{b.title}</b><small>{new Date(b.created_at).toLocaleDateString('en-GB')}</small></span><button className="danger-button" onClick={()=>remove(b.id)}><Trash2 size={15}/> Remove</button></div>)}</div></section>}
