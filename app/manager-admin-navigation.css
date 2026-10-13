@@ -1,0 +1,91 @@
+/* Role-based navigation simplification */
+.role-hidden-nav{display:none!important}
+
+.manager-view-redirects{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(420px,.95fr);
+  gap:26px;
+  padding:24px;
+  margin-bottom:18px;
+  border-radius:18px!important;
+}
+.manager-view-copy h1{
+  margin:4px 0 8px;
+  font-size:clamp(28px,3vw,40px);
+  letter-spacing:-.04em;
+  line-height:1.03;
+}
+.manager-view-copy>p:last-child{
+  margin:0;
+  max-width:560px;
+  color:#81899d;
+  font-size:12px;
+  line-height:1.6;
+}
+.manager-view-actions{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+}
+.manager-view-actions button{
+  min-height:84px;
+  padding:15px;
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:13px;
+  background:rgba(255,255,255,.025);
+  color:#f2f4fb;
+  text-align:left;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:center;
+  gap:5px;
+  cursor:pointer;
+  transition:transform .14s ease,border-color .14s ease,background .14s ease;
+}
+.manager-view-actions button:hover,
+.manager-view-actions button:focus-visible{
+  transform:translateY(-1px);
+  border-color:rgba(142,108,255,.24);
+  background:rgba(142,108,255,.055);
+  outline:none;
+}
+.manager-view-actions span{
+  font-size:13px;
+  font-weight:780;
+  letter-spacing:-.01em;
+}
+.manager-view-actions small{
+  color:#778096;
+  font-size:10px;
+  line-height:1.45;
+}
+.manager-view-actions button:last-child{
+  grid-column:1/-1;
+}
+
+/* Admin no longer exposes the creator dashboard as a destination. */
+.owner-nav-simplified .avatar-button{cursor:default}
+
+@media(max-width:860px){
+  .manager-view-redirects{
+    grid-template-columns:1fr;
+    gap:18px;
+    padding:18px;
+  }
+}
+@media(max-width:620px){
+  .manager-view-actions{grid-template-columns:1fr}
+  .manager-view-actions button:last-child{grid-column:auto}
+  .manager-view-actions button{min-height:72px}
+  .manager-nav-simplified .mobile-tabs,
+  .owner-nav-simplified .mobile-tabs{
+    justify-content:center!important;
+    gap:10px!important;
+  }
+  .manager-nav-simplified .mobile-tabs button:not(.role-hidden-nav),
+  .owner-nav-simplified .mobile-tabs button:not(.role-hidden-nav){
+    flex:1 1 0!important;
+    max-width:180px!important;
+  }
+}
