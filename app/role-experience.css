@@ -1,0 +1,288 @@
+/* Unified role experience. Loaded last so each role keeps its own clean navigation. */
+
+.role-hidden-nav { display: none !important; }
+
+/* ---------- Shared footer/navigation ---------- */
+.role-creator .mobile-tabs,
+.role-manager .mobile-tabs,
+.role-admin .mobile-tabs {
+  justify-content: center !important;
+  gap: 8px !important;
+  overflow: visible !important;
+}
+
+.role-creator .mobile-tabs button:not(.role-hidden-nav),
+.role-manager .mobile-tabs button:not(.role-hidden-nav),
+.role-admin .mobile-tabs button:not(.role-hidden-nav) {
+  min-width: 0 !important;
+  min-height: 52px !important;
+  border-radius: 12px !important;
+}
+
+.role-creator .mobile-tabs button:not(.role-hidden-nav) { flex: 0 1 170px !important; }
+.role-manager .mobile-tabs button:not(.role-hidden-nav) { flex: 0 1 190px !important; }
+.role-admin .mobile-tabs button:not(.role-hidden-nav) { flex: 0 1 155px !important; }
+
+.role-creator .mobile-tabs span,
+.role-manager .mobile-tabs span,
+.role-admin .mobile-tabs span {
+  white-space: nowrap;
+  font-size: 10px !important;
+  letter-spacing: -.01em;
+}
+
+/* ---------- Creator protection ---------- */
+.role-creator .stats-grid { display: none !important; }
+.role-creator .dashboard-grid {
+  grid-template-columns: minmax(0, 1fr) !important;
+  gap: 10px !important;
+  margin-top: 10px !important;
+}
+.role-creator .focus-card { display: none !important; }
+.role-creator .progress-panel {
+  width: 100% !important;
+  border-radius: 18px !important;
+}
+
+/* ---------- Admin ---------- */
+.role-admin .admin-stats { display: grid !important; }
+.role-admin .admin-overview-heading {
+  padding: 2px 0 0;
+  margin-bottom: 12px !important;
+}
+
+.role-admin .admin-quick-actions {
+  display: flex !important;
+  gap: 8px !important;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-left: auto;
+}
+
+.role-admin .admin-quick-actions button {
+  min-height: 36px !important;
+  padding: 0 13px !important;
+  border-radius: 10px !important;
+  border: 1px solid rgba(255,255,255,.08) !important;
+  background: rgba(255,255,255,.025) !important;
+  color: #dfe4f3 !important;
+  box-shadow: none !important;
+  font-size: 11px !important;
+  font-weight: 760 !important;
+}
+
+.role-admin .admin-quick-actions button:first-child {
+  border-color: rgba(89,166,255,.18) !important;
+  background: rgba(89,166,255,.055) !important;
+}
+.role-admin .admin-quick-actions button:last-child {
+  border-color: rgba(141,108,255,.20) !important;
+  background: rgba(141,108,255,.06) !important;
+}
+
+.admin-tool-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0 0 16px;
+}
+
+.admin-tool-grid button {
+  min-height: 154px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 6px;
+  text-align: left;
+  border: 1px solid rgba(255,255,255,.065);
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(255,255,255,.026), rgba(255,255,255,.012));
+  color: #f3f5fb;
+  cursor: pointer;
+  box-shadow: none;
+  transition: border-color .14s ease, background .14s ease, transform .14s ease;
+}
+
+.admin-tool-grid button:hover,
+.admin-tool-grid button:focus-visible {
+  transform: translateY(-1px);
+  border-color: rgba(131,153,255,.20);
+  background: rgba(104,116,196,.05);
+  outline: none;
+}
+
+.admin-tool-kicker {
+  margin-bottom: 8px;
+  color: #717b95;
+  font-size: 9px;
+  font-weight: 850;
+  letter-spacing: .12em;
+}
+
+.admin-tool-grid strong {
+  font-size: 15px;
+  line-height: 1.2;
+  letter-spacing: -.02em;
+}
+.admin-tool-grid small {
+  color: #7f889d;
+  font-size: 10px;
+  line-height: 1.5;
+}
+.admin-tool-grid b {
+  margin-top: auto;
+  color: #aeb8d4;
+  font-size: 10px;
+  font-weight: 740;
+}
+
+.role-admin.admin-panel-records-open .admin-tool-grid,
+.role-admin.admin-panel-campaigns-open .admin-tool-grid { display: none !important; }
+
+.role-admin .campaign-admin-panel,
+.role-admin .admin-table-panel {
+  border: 1px solid rgba(255,255,255,.065) !important;
+  box-shadow: none !important;
+}
+
+.role-admin .sidebar nav button:not(.role-hidden-nav),
+.role-manager .sidebar nav button:not(.role-hidden-nav) {
+  margin-bottom: 4px;
+}
+
+/* ---------- Manager ---------- */
+.role-manager .manager-view-redirects {
+  display: grid !important;
+  grid-template-columns: minmax(0, .95fr) minmax(440px, 1.05fr) !important;
+  gap: 24px !important;
+  padding: 24px !important;
+  margin-bottom: 14px !important;
+  border: 1px solid rgba(255,255,255,.065) !important;
+  border-radius: 18px !important;
+  background: rgba(5,10,22,.72) !important;
+  box-shadow: none !important;
+}
+
+.role-manager .manager-view-copy h1 {
+  margin: 5px 0 8px !important;
+  font-size: clamp(28px,3.2vw,40px) !important;
+  line-height: 1.02 !important;
+  letter-spacing: -.045em !important;
+}
+.role-manager .manager-view-copy > p:last-child {
+  margin: 0;
+  max-width: 540px;
+  color: #7e879a !important;
+  font-size: 11px !important;
+  line-height: 1.6 !important;
+}
+
+.role-manager .manager-view-actions {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0,1fr)) !important;
+  gap: 9px !important;
+}
+
+.role-manager .manager-view-actions button {
+  min-height: 82px !important;
+  padding: 14px 15px !important;
+  border: 1px solid rgba(255,255,255,.065) !important;
+  border-radius: 13px !important;
+  background: rgba(255,255,255,.022) !important;
+  box-shadow: none !important;
+}
+
+.role-manager .manager-view-actions button:hover,
+.role-manager .manager-view-actions button:focus-visible {
+  transform: translateY(-1px) !important;
+  border-color: rgba(130,120,255,.20) !important;
+  background: rgba(130,120,255,.045) !important;
+}
+.role-manager .manager-view-actions button:last-child { grid-column: 1 / -1; }
+.role-manager .manager-view-actions span {
+  font-size: 12px !important;
+  font-weight: 780 !important;
+}
+.role-manager .manager-view-actions small {
+  color: #747e93 !important;
+  font-size: 10px !important;
+  line-height: 1.45 !important;
+}
+
+/* Message/support and arranged-battle pages share the same calmer surface treatment. */
+.role-manager .combined-help,
+.role-admin .combined-help,
+.role-manager .panel,
+.role-admin .panel {
+  box-shadow: none;
+}
+
+/* ---------- Interaction/performance ---------- */
+.role-creator button,
+.role-manager button,
+.role-admin button,
+.role-creator a,
+.role-manager a,
+.role-admin a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .role-creator *, .role-manager *, .role-admin * {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+@media (max-width: 1050px) {
+  .admin-tool-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .role-manager .manager-view-redirects { grid-template-columns: 1fr !important; }
+}
+
+@media (max-width: 760px) {
+  .role-admin .admin-overview-heading,
+  .role-manager .manager-view-redirects {
+    gap: 13px !important;
+  }
+
+  .role-admin .admin-quick-actions {
+    width: 100%;
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    margin: 0 !important;
+  }
+  .role-admin .admin-quick-actions button { min-height: 42px !important; }
+
+  .admin-tool-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .admin-tool-grid button {
+    min-height: 132px;
+    padding: 14px;
+    border-radius: 14px;
+  }
+
+  .role-manager .manager-view-redirects { padding: 18px !important; }
+  .role-manager .manager-view-actions { grid-template-columns: 1fr !important; }
+  .role-manager .manager-view-actions button:last-child { grid-column: auto; }
+  .role-manager .manager-view-actions button { min-height: 68px !important; }
+
+  .role-admin .mobile-tabs,
+  .role-manager .mobile-tabs,
+  .role-creator .mobile-tabs {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-tool-grid { grid-template-columns: 1fr; }
+  .admin-tool-grid button { min-height: 112px; }
+  .role-admin .mobile-tabs button:not(.role-hidden-nav) { flex: 1 1 0 !important; }
+  .role-manager .mobile-tabs button:not(.role-hidden-nav) { flex: 1 1 0 !important; }
+  .role-creator .mobile-tabs button:not(.role-hidden-nav) { flex: 1 1 0 !important; }
+}
