@@ -4,6 +4,17 @@ import {useEffect} from "react";
 
 type AdminPanel = "overview" | "records" | "campaigns";
 
+function roleFromShell(){
+  const role=(document.querySelector<HTMLElement>(".profile-mini small")?.textContent||"").trim().toLowerCase();
+  if(role.includes("agency owner"))return "admin";
+  if(role==="manager")return "manager";
+  return "creator";
+}
+
+function isAdmin(){
+  return roleFromShell()==="admin" && !document.querySelector(".login-page");
+}
+
 function navButtonContaining(text:string){
   const needle=text.toLowerCase();
   const buttons=[...document.querySelectorAll<HTMLButtonElement>(".mobile-tabs button, .sidebar nav button")];
@@ -11,12 +22,23 @@ function navButtonContaining(text:string){
 }
 
 function isAdminHome(){
+  if(!isAdmin())return false;
   return [...document.querySelectorAll<HTMLElement>(".page-heading h1")]
     .some((heading)=>heading.textContent?.trim().toLowerCase()==="agency admin");
 }
 
+function clearAdminState(){
+  document.body.classList.remove("admin-nav-simplified","admin-panel-records-open","admin-panel-campaigns-open");
+  const buttons=[...document.querySelectorAll<HTMLButtonElement>(".mobile-tabs button, .sidebar nav button")];
+  for(const button of buttons){
+    button.classList.remove("admin-hidden-nav-item");
+    button.removeAttribute("aria-hidden");
+    button.removeAttribute("tabindex");
+  }
+}
+
 function simplifyAdminNavigation(){
-  if(!document.body.classList.contains("admin-nav-simplified"))return;
+  if(!isAdmin() || !document.body.classList.contains("admin-nav-simplified"))return;
   const buttons=[...document.querySelectorAll<HTMLButtonElement>(".mobile-tabs button, .sidebar nav button")];
   for(const button of buttons){
     const label=button.textContent?.toLowerCase()||"";
@@ -34,6 +56,7 @@ function simplifyAdminNavigation(){
 }
 
 function setHeading(panel:AdminPanel){
+  if(!isAdmin())return;
   const heading=[...document.querySelectorAll<HTMLElement>(".page-heading")].find((section)=>
     section.querySelector("h1")?.textContent?.trim().toLowerCase()==="agency admin" ||
     section.classList.contains("admin-overview-heading")
@@ -56,6 +79,7 @@ function setHeading(panel:AdminPanel){
 }
 
 function setPanel(panel:AdminPanel){
+  if(!isAdmin())return;
   document.body.classList.toggle("admin-panel-records-open",panel==="records");
   document.body.classList.toggle("admin-panel-campaigns-open",panel==="campaigns");
   setHeading(panel);
@@ -69,7 +93,7 @@ function setPanel(panel:AdminPanel){
 }
 
 function ensureBackButton(container:Element|null){
-  if(!container || container.querySelector(".admin-back-overview"))return;
+  if(!isAdmin() || !container || container.querySelector(".admin-back-overview"))return;
   const button=document.createElement("button");
   button.type="button";
   button.className="admin-back-overview";
@@ -79,6 +103,7 @@ function ensureBackButton(container:Element|null){
 }
 
 function ensureAdminActions(){
+  if(!isAdmin())return;
   const heading=[...document.querySelectorAll<HTMLElement>(".page-heading")].find((section)=>
     section.querySelector("h1")?.textContent?.trim().toLowerCase()==="agency admin" ||
     section.classList.contains("admin-overview-heading")
@@ -106,6 +131,7 @@ function ensureAdminActions(){
 }
 
 function activateAdminAction(target:EventTarget|null){
+  if(!isAdmin())return false;
   const element=(target as HTMLElement|null)?.closest<HTMLElement>("[data-admin-action]");
   if(!element)return false;
   const action=element.dataset.adminAction;
@@ -126,8 +152,8 @@ function activateAdminAction(target:EventTarget|null){
 }
 
 function runAdminEnhancements(){
-  if(document.querySelector(".login-page")){
-    document.body.classList.remove("admin-nav-simplified","admin-panel-records-open","admin-panel-campaigns-open");
+  if(!isAdmin()){
+    clearAdminState();
     return;
   }
   if(isAdminHome())ensureAdminActions();
@@ -146,17 +172,19 @@ export default function AdminEnhancements(){
     };
 
     const onClick=(event:MouseEvent)=>{
-      const button=(event.target as HTMLElement|null)?.closest<HTMLButtonElement>("button");
-      if(button && document.body.classList.contains("admin-nav-simplified")){
-        const label=button.textContent?.trim().toLowerCase()||"";
-        if(label==="admin")setPanel("overview");
+      if(isAdmin()){
+        const button=(event.target as HTMLElement|null)?.closest<HTMLButtonElement>("button");
+        if(button && document.body.classList.contains("admin-nav-simplified")){
+          const label=button.textContent?.trim().toLowerCase()||"";
+          if(label==="admin")setPanel("overview");
+        }
+        if(activateAdminAction(event.target))event.preventDefault();
       }
-      if(activateAdminAction(event.target))event.preventDefault();
       window.setTimeout(schedule,80);
       window.setTimeout(schedule,400);
     };
     const onKeyDown=(event:KeyboardEvent)=>{
-      if(event.key!=="Enter"&&event.key!==" ")return;
+      if(!isAdmin() || (event.key!=="Enter"&&event.key!==" "))return;
       if(activateAdminAction(event.target))event.preventDefault();
     };
 
