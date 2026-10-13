@@ -4,7 +4,9 @@ import "./globals.css";
 import "./creator-refresh.css";
 import "./creator-simplify.css";
 import "./creator-tool-pages.css";
+import "./admin-simplify.css";
 import CreatorDashboardEnhancements from "./creator-dashboard-enhancements";
+import AdminEnhancements from "./admin-enhancements";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -44,6 +46,7 @@ export default function RootLayout({
       >
         {children}
         <CreatorDashboardEnhancements />
+        <AdminEnhancements />
       </body>
     </html>
   );
