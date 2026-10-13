@@ -18,6 +18,20 @@
 .progress-panel .panel-heading { align-items: center !important; }
 .progress-panel .panel-heading h2 { font-size: clamp(26px, 3vw, 38px) !important; }
 
+/* Creator navigation: only My progress + Leaderboard stay in the footer/menu.
+   Hidden views remain callable from dashboard shortcuts where needed. */
+.creator-nav-simplified .creator-hidden-nav-item {
+  display: none !important;
+}
+.creator-nav-simplified .mobile-tabs {
+  justify-content: center !important;
+  gap: 10px !important;
+}
+.creator-nav-simplified .mobile-tabs button:not(.creator-hidden-nav-item) {
+  flex: 1 1 0 !important;
+  max-width: 180px !important;
+}
+
 /* Header actions */
 .heading-pills {
   align-items: stretch !important;
@@ -34,13 +48,11 @@
   transform: translateY(-1px);
   outline: none;
 }
-.creator-message-manager-top {
+.creator-message-manager-top,
+.creator-book-battle-top {
   min-height: 34px;
   padding: 0 13px;
-  border: 1px solid rgba(90,167,255,.20);
   border-radius: 10px;
-  background: rgba(90,167,255,.07);
-  color: #dcebff;
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -50,12 +62,32 @@
   cursor: pointer;
   transition: background .16s ease, border-color .16s ease, transform .16s ease;
 }
+.creator-message-manager-top {
+  border: 1px solid rgba(90,167,255,.20);
+  background: rgba(90,167,255,.07);
+  color: #dcebff;
+}
+.creator-book-battle-top {
+  border: 1px solid rgba(142,108,255,.22);
+  background: rgba(142,108,255,.08);
+  color: #e4ddff;
+}
+.creator-message-manager-top:hover,
+.creator-message-manager-top:focus-visible,
+.creator-book-battle-top:hover,
+.creator-book-battle-top:focus-visible {
+  transform: translateY(-1px);
+  outline: none;
+}
 .creator-message-manager-top:hover,
 .creator-message-manager-top:focus-visible {
   background: rgba(90,167,255,.11);
   border-color: rgba(90,167,255,.30);
-  transform: translateY(-1px);
-  outline: none;
+}
+.creator-book-battle-top:hover,
+.creator-book-battle-top:focus-visible {
+  background: rgba(142,108,255,.13);
+  border-color: rgba(142,108,255,.34);
 }
 .creator-message-dot {
   width: 7px;
@@ -63,6 +95,11 @@
   border-radius: 50%;
   background: #69b2ff;
   box-shadow: 0 0 10px rgba(90,167,255,.45);
+}
+.creator-battle-mark {
+  font-size: 13px;
+  line-height: 1;
+  opacity: .92;
 }
 
 /* Campaign artwork + TikTok Campaign Centre now live in one card. */
@@ -117,7 +154,7 @@
   line-height: 1.55;
 }
 
-/* Incentives: only show the tier the creator is currently grinding. */
+/* Incentives: only show the tier the creator is currently grinding if that internal view is ever opened. */
 .incentive-ladder-head { display: none !important; }
 .incentive-ladder {
   grid-template-columns: minmax(0, 680px) !important;
@@ -144,11 +181,12 @@
     display: grid !important;
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
-  .creator-message-manager-top {
-    grid-column: 1 / -1;
+  .creator-message-manager-top,
+  .creator-book-battle-top {
     justify-content: center;
     min-height: 42px;
-    font-size: 12px;
+    font-size: 11px;
+    padding: 0 10px;
   }
   .campaign-centre-inline {
     align-items: stretch;
