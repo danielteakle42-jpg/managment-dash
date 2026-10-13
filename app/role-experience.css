@@ -1,5 +1,19 @@
 /* Unified role experience. Loaded last so each role keeps its own clean navigation. */
 
+/* Prevent a flash of the full original navigation before the logged-in role is identified. */
+.role-nav-pending .app-shell .mobile-tabs,
+.role-nav-pending .app-shell .sidebar nav {
+  visibility: hidden !important;
+}
+.role-nav-pending.role-creator .app-shell .mobile-tabs,
+.role-nav-pending.role-creator .app-shell .sidebar nav,
+.role-nav-pending.role-manager .app-shell .mobile-tabs,
+.role-nav-pending.role-manager .app-shell .sidebar nav,
+.role-nav-pending.role-admin .app-shell .mobile-tabs,
+.role-nav-pending.role-admin .app-shell .sidebar nav {
+  visibility: visible !important;
+}
+
 .role-hidden-nav { display: none !important; }
 
 /* ---------- Shared footer/navigation ---------- */
