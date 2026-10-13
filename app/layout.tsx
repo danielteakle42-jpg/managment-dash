@@ -4,7 +4,6 @@ import "./globals.css";
 import "./creator-refresh.css";
 import "./creator-simplify.css";
 import "./creator-tool-pages.css";
-import "./creator-performance.css";
 import CreatorDashboardEnhancements from "./creator-dashboard-enhancements";
 
 const geistSans = Geist({
