@@ -7,7 +7,9 @@ import "./creator-tool-pages.css";
 import "./admin-simplify.css";
 import "./manager-admin-navigation.css";
 import "./role-experience.css";
+import "./leaderboard-upgrade.css";
 import RoleExperience from "./role-experience";
+import LeaderboardEnhancements from "./leaderboard-enhancements";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -47,6 +49,7 @@ export default function RootLayout({
       >
         {children}
         <RoleExperience />
+        <LeaderboardEnhancements />
       </body>
     </html>
   );
