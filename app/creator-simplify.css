@@ -1,0 +1,157 @@
+/* Creator dashboard simplification pass */
+
+/* Remove the duplicated top stat cards. Tier progress below campaigns is the single source of truth. */
+.stats-grid { display: none !important; }
+
+/* Make the home dashboard feel like one joined-up flow rather than separate widgets. */
+.dashboard-grid {
+  grid-template-columns: minmax(0, 1fr) !important;
+  gap: 10px !important;
+  margin-top: 10px !important;
+}
+.focus-card { display: none !important; }
+.progress-panel {
+  width: 100% !important;
+  border-radius: 18px !important;
+  padding: 24px !important;
+}
+.progress-panel .panel-heading { align-items: center !important; }
+.progress-panel .panel-heading h2 { font-size: clamp(26px, 3vw, 38px) !important; }
+
+/* Header actions */
+.heading-pills {
+  align-items: stretch !important;
+}
+.creator-message-manager-top {
+  min-height: 34px;
+  padding: 0 13px;
+  border: 1px solid rgba(90,167,255,.20);
+  border-radius: 10px;
+  background: rgba(90,167,255,.07);
+  color: #dcebff;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 760;
+  cursor: pointer;
+  transition: background .16s ease, border-color .16s ease, transform .16s ease;
+}
+.creator-message-manager-top:hover {
+  background: rgba(90,167,255,.11);
+  border-color: rgba(90,167,255,.30);
+  transform: translateY(-1px);
+}
+.creator-message-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #69b2ff;
+  box-shadow: 0 0 10px rgba(90,167,255,.45);
+}
+
+/* Campaign artwork + TikTok Campaign Centre now live in one card. */
+.campaign-banner-panel {
+  border-radius: 18px !important;
+  overflow: hidden;
+}
+.campaign-banner-panel[open] .dashboard-dropdown-summary {
+  border-bottom: 1px solid rgba(255,255,255,.055);
+}
+.campaign-banner-list {
+  display: grid;
+  gap: 14px;
+  padding-top: 16px !important;
+}
+.campaign-centre-inline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+  padding: 18px;
+  border: 1px solid rgba(90,167,255,.11);
+  border-radius: 14px;
+  background: rgba(90,167,255,.035);
+}
+.campaign-centre-inline h3 {
+  margin: 3px 0 5px;
+  font-size: 18px;
+  letter-spacing: -.025em;
+}
+.campaign-centre-inline p {
+  margin: 0;
+  max-width: 620px;
+  color: #858da1;
+  font-size: 11px;
+  line-height: 1.55;
+}
+.campaign-centre-button {
+  flex: 0 0 auto;
+  min-height: 40px !important;
+  border-radius: 10px !important;
+  padding: 0 14px !important;
+  text-decoration: none;
+  box-shadow: none !important;
+}
+.campaign-empty-inline {
+  padding: 16px 18px;
+  border-radius: 13px;
+  border: 1px dashed rgba(255,255,255,.08);
+  color: #7f879a;
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+/* Incentives: only show the tier the creator is currently grinding. */
+.incentive-ladder-head { display: none !important; }
+.incentive-ladder {
+  grid-template-columns: minmax(0, 680px) !important;
+  justify-content: start !important;
+  margin-top: 14px !important;
+}
+.incentive-ladder .incentive-tier-card:not(.active-tier) { display: none !important; }
+.incentive-ladder .incentive-tier-card.active-tier {
+  width: 100% !important;
+  min-height: 245px !important;
+}
+
+/* Tone down repeated helper copy on the home view. */
+.progress-row small { color: #70788d !important; }
+
+@media (max-width: 760px) {
+  .page-heading {
+    align-items: stretch !important;
+    flex-direction: column !important;
+    gap: 14px !important;
+  }
+  .heading-pills {
+    justify-content: flex-start !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+  .creator-message-manager-top {
+    grid-column: 1 / -1;
+    justify-content: center;
+    min-height: 42px;
+    font-size: 12px;
+  }
+  .campaign-centre-inline {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 14px;
+    padding: 15px;
+  }
+  .campaign-centre-button {
+    width: 100%;
+  }
+  .progress-panel {
+    padding: 20px 16px !important;
+  }
+  .progress-panel .panel-heading h2 {
+    font-size: 28px !important;
+  }
+  .incentive-ladder {
+    grid-template-columns: minmax(0,1fr) !important;
+  }
+}
