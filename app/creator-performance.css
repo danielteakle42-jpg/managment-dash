@@ -1,0 +1,109 @@
+/* Creator Hub performance pass — especially for iOS Safari. */
+
+/* Avoid expensive tap/hover effects lingering on touch devices. */
+button,
+a,
+summary,
+[role="button"] {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* Keep interactions short and consistent instead of stacking long transitions. */
+.creator-message-manager-top,
+.creator-book-battle-top,
+.creator-ban-help-top,
+.mobile-tabs button,
+.sidebar nav button,
+.primary-button,
+.secondary-button,
+.icon-button,
+.battle-day-cell {
+  transition-duration: 120ms !important;
+}
+
+@media (hover: none) {
+  .sidebar nav button:hover,
+  .battle-day-cell:hover,
+  .creator-message-manager-top:hover,
+  .creator-book-battle-top:hover,
+  .creator-ban-help-top:hover {
+    transform: none !important;
+  }
+}
+
+/* iPhone/iPad: fixed cover backgrounds + multiple backdrop blurs are a common
+   source of scroll judder and repaint flashes. Keep the same look with cheaper layers. */
+@media (max-width: 760px) {
+  body::before {
+    background-attachment: scroll !important;
+    filter: saturate(.68) brightness(.66) !important;
+  }
+
+  .panel,
+  .stat-card,
+  .podium-card,
+  .table-panel,
+  .incentive-card,
+  .campaign-hero,
+  .battle-match-card,
+  .daily-card,
+  .topbar,
+  .mobile-tabs,
+  .sidebar,
+  .overlay {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  .panel,
+  .table-panel,
+  .campaign-hero,
+  .battle-match-card,
+  .daily-card {
+    box-shadow: 0 8px 24px rgba(0,0,0,.18) !important;
+  }
+
+  .topbar {
+    background: rgba(5,7,13,.96) !important;
+  }
+
+  .mobile-tabs {
+    background: rgba(5,7,13,.97) !important;
+  }
+
+  .overlay {
+    background: rgba(0,0,0,.72) !important;
+  }
+
+  /* Decorative loops look good on desktop but cause unnecessary mobile repaints. */
+  .ambient,
+  .phone-glow,
+  .live-dot,
+  .battle-status-dot {
+    animation: none !important;
+  }
+
+  /* Prevent large panels from triggering unnecessary compositing layers. */
+  .content,
+  .page-heading,
+  .progress-panel,
+  .campaign-banner-panel,
+  .creator-support-thread,
+  .battle-calendar {
+    will-change: auto !important;
+    transform: none;
+  }
+}
+
+/* Respect system motion settings and make the app feel instant for those users. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+  }
+}
