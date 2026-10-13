@@ -22,6 +22,18 @@
 .heading-pills {
   align-items: stretch !important;
 }
+.creator-header-action {
+  cursor: pointer !important;
+  user-select: none;
+  transition: background .16s ease, border-color .16s ease, transform .16s ease !important;
+}
+.creator-header-action:hover,
+.creator-header-action:focus-visible {
+  background: rgba(142,108,255,.10) !important;
+  border-color: rgba(142,108,255,.26) !important;
+  transform: translateY(-1px);
+  outline: none;
+}
 .creator-message-manager-top {
   min-height: 34px;
   padding: 0 13px;
@@ -38,10 +50,12 @@
   cursor: pointer;
   transition: background .16s ease, border-color .16s ease, transform .16s ease;
 }
-.creator-message-manager-top:hover {
+.creator-message-manager-top:hover,
+.creator-message-manager-top:focus-visible {
   background: rgba(90,167,255,.11);
   border-color: rgba(90,167,255,.30);
   transform: translateY(-1px);
+  outline: none;
 }
 .creator-message-dot {
   width: 7px;
