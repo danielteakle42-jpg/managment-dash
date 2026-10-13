@@ -23,9 +23,22 @@ function openDailyBreakdown(){
   window.setTimeout(()=>details.scrollIntoView({behavior:"smooth",block:"start"}),40);
 }
 
+function simplifyCreatorNavigation(){
+  if(!document.body.classList.contains("creator-nav-simplified"))return;
+  const buttons=[...document.querySelectorAll<HTMLButtonElement>(".mobile-tabs button, .sidebar nav button")];
+  for(const button of buttons){
+    const label=button.textContent?.toLowerCase()||"";
+    const hidden=label.includes("incentives")||label.includes("arranged")||label.includes("message");
+    button.classList.toggle("creator-hidden-nav-item",hidden);
+    if(hidden)button.setAttribute("aria-hidden","true");
+  }
+}
+
 function ensureHeaderActions(){
   const heading=[...document.querySelectorAll<HTMLElement>(".page-heading h1")].find((item)=>item.textContent?.trim().startsWith("Your pulse,"));
   if(!heading)return;
+
+  document.body.classList.add("creator-nav-simplified");
 
   const pageHeading=heading.closest<HTMLElement>(".page-heading");
   const pills=pageHeading?.querySelector<HTMLElement>(".heading-pills");
@@ -33,11 +46,11 @@ function ensureHeaderActions(){
 
   const tierPill=pills.querySelector<HTMLElement>(".tier-pill");
   if(tierPill){
-    tierPill.classList.add("creator-header-action");
-    tierPill.setAttribute("role","button");
-    tierPill.setAttribute("tabindex","0");
-    tierPill.setAttribute("aria-label","Open incentives and tier progress");
-    tierPill.dataset.creatorAction="incentives";
+    tierPill.classList.remove("creator-header-action");
+    tierPill.removeAttribute("role");
+    tierPill.removeAttribute("tabindex");
+    tierPill.removeAttribute("aria-label");
+    delete tierPill.dataset.creatorAction;
   }
 
   const periodPill=pills.querySelector<HTMLElement>(".period-pill");
@@ -56,6 +69,16 @@ function ensureHeaderActions(){
     button.dataset.creatorAction="message";
     button.setAttribute("aria-label","Message your manager");
     button.innerHTML='<span class="creator-message-dot" aria-hidden="true"></span><span>Message manager</span>';
+    pills.appendChild(button);
+  }
+
+  if(!pills.querySelector(".creator-book-battle-top")){
+    const button=document.createElement("button");
+    button.type="button";
+    button.className="creator-book-battle-top";
+    button.dataset.creatorAction="battle";
+    button.setAttribute("aria-label","Book an arranged battle");
+    button.innerHTML='<span class="creator-battle-mark" aria-hidden="true">⚔</span><span>Book arranged battle</span>';
     pills.appendChild(button);
   }
 }
@@ -79,14 +102,15 @@ export default function CreatorDashboardEnhancements(){
     const run=()=>{
       ensureHeaderActions();
       simplifyTierCopy();
+      simplifyCreatorNavigation();
     };
 
     const activate=(target:EventTarget|null)=>{
       const element=(target as HTMLElement|null)?.closest<HTMLElement>("[data-creator-action]");
       if(!element)return false;
       const action=element.dataset.creatorAction;
-      if(action==="incentives")goToNavigation("incentives");
       if(action==="message")goToNavigation("message");
+      if(action==="battle")goToNavigation("arranged");
       if(action==="month")openDailyBreakdown();
       return true;
     };
