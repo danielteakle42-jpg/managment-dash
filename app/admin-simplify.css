@@ -1,0 +1,214 @@
+/* Admin overview simplification */
+
+body.admin-nav-simplified .admin-hidden-nav-item {
+  display: none !important;
+}
+
+/* Creator simplification hides every stats-grid globally; restore the admin overview cards. */
+body.admin-nav-simplified .admin-stats {
+  display: grid !important;
+}
+
+.admin-overview-heading {
+  align-items: flex-start !important;
+  gap: 18px !important;
+  margin-bottom: 16px !important;
+}
+.admin-overview-heading > div:first-child {
+  min-width: 0;
+}
+.admin-overview-heading .eyebrow {
+  color: #8f98b3 !important;
+}
+.admin-overview-heading h1 {
+  margin-bottom: 7px !important;
+  font-size: clamp(30px,4vw,42px) !important;
+  letter-spacing: -.045em !important;
+}
+.admin-overview-heading > div:first-child > p:last-child {
+  max-width: 620px;
+  color: #7e879b !important;
+  font-size: 12px !important;
+  line-height: 1.55 !important;
+}
+
+.admin-quick-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-left: auto;
+}
+.admin-quick-actions button,
+.admin-back-overview {
+  min-height: 36px;
+  padding: 0 13px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,.09);
+  background: rgba(255,255,255,.035);
+  color: #d9def0;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 760;
+  cursor: pointer;
+  transition: background .16s ease,border-color .16s ease,transform .16s ease;
+}
+.admin-quick-actions button:hover,
+.admin-quick-actions button:focus-visible,
+.admin-back-overview:hover,
+.admin-back-overview:focus-visible {
+  background: rgba(142,108,255,.09);
+  border-color: rgba(142,108,255,.24);
+  transform: translateY(-1px);
+  outline: none;
+}
+.admin-quick-actions button:first-child {
+  background: rgba(90,167,255,.075);
+  border-color: rgba(90,167,255,.19);
+  color: #dcecff;
+}
+.admin-quick-actions button:nth-child(2) {
+  background: rgba(142,108,255,.075);
+  border-color: rgba(142,108,255,.20);
+  color: #e5dfff;
+}
+
+/* Main admin page shows overview only. Heavy tools open through the header shortcuts. */
+body.admin-nav-simplified .campaign-admin-panel,
+body.admin-nav-simplified .admin-actions,
+body.admin-nav-simplified .admin-table-panel,
+body.admin-nav-simplified .daily-import-help {
+  display: none !important;
+}
+
+body.admin-panel-campaigns-open .campaign-admin-panel {
+  display: block !important;
+  scroll-margin-top: 84px;
+}
+body.admin-panel-records-open .admin-table-panel {
+  display: block !important;
+  scroll-margin-top: 84px;
+}
+
+/* Keep export/clear/edit tools available inside Creator Records, but compact. */
+body.admin-panel-records-open .admin-actions {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  padding: 12px !important;
+  margin: 10px 0 !important;
+  min-height: 0 !important;
+}
+body.admin-panel-records-open .admin-actions > div:first-child {
+  display: none !important;
+}
+body.admin-panel-records-open .admin-actions .action-buttons {
+  width: 100%;
+  justify-content: flex-end !important;
+  gap: 8px !important;
+}
+body.admin-panel-records-open .admin-actions .primary-button,
+body.admin-panel-records-open .admin-actions .secondary-button,
+body.admin-panel-records-open .admin-actions .danger-button {
+  min-height: 36px !important;
+  padding: 0 12px !important;
+  border-radius: 9px !important;
+  font-size: 11px !important;
+  box-shadow: none !important;
+}
+
+/* Dedicated redirect views should feel like focused pages, not the overview plus everything below it. */
+body.admin-panel-records-open .admin-stats,
+body.admin-panel-campaigns-open .admin-stats {
+  display: none !important;
+}
+body.admin-panel-records-open .admin-message,
+body.admin-panel-campaigns-open .admin-message {
+  margin-top: 10px;
+}
+
+.campaign-admin-panel,
+.admin-table-panel {
+  border-radius: 18px !important;
+}
+.campaign-admin-panel .quick-chat-head,
+.admin-table-panel .admin-table-top {
+  align-items: center !important;
+  gap: 12px !important;
+}
+.admin-back-overview {
+  margin-left: auto;
+  flex: 0 0 auto;
+}
+
+/* Campaign upload feels like a tool page rather than a giant dashboard section. */
+body.admin-panel-campaigns-open .campaign-admin-panel {
+  padding: 20px !important;
+}
+body.admin-panel-campaigns-open .campaign-upload-row {
+  gap: 8px !important;
+  margin-top: 16px !important;
+}
+body.admin-panel-campaigns-open .campaign-upload-row input,
+body.admin-panel-campaigns-open .campaign-upload-row button {
+  min-height: 40px !important;
+  border-radius: 10px !important;
+}
+
+/* Mobile admin footer stays usable after removing Dashboard, Incentives and Leaderboard. */
+body.admin-nav-simplified .mobile-tabs {
+  overflow-x: auto;
+  justify-content: flex-start !important;
+  scrollbar-width: none;
+}
+body.admin-nav-simplified .mobile-tabs::-webkit-scrollbar {
+  display: none;
+}
+body.admin-nav-simplified .mobile-tabs button:not(.admin-hidden-nav-item) {
+  flex: 0 0 88px !important;
+  min-width: 88px !important;
+}
+
+@media (max-width: 760px) {
+  .admin-overview-heading {
+    gap: 13px !important;
+  }
+  .admin-overview-heading h1 {
+    font-size: 34px !important;
+  }
+  .admin-quick-actions {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    margin-left: 0;
+  }
+  .admin-quick-actions button {
+    justify-content: center;
+    min-height: 42px;
+    padding: 0 9px;
+  }
+  body.admin-panel-records-open .admin-actions {
+    align-items: stretch !important;
+  }
+  body.admin-panel-records-open .admin-actions .action-buttons {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    justify-content: stretch !important;
+  }
+  body.admin-panel-records-open .admin-actions .action-buttons > * {
+    width: 100% !important;
+  }
+  .admin-back-overview {
+    width: 100%;
+    margin: 8px 0 0;
+  }
+  .campaign-admin-panel .quick-chat-head,
+  .admin-table-panel .admin-table-top {
+    align-items: stretch !important;
+    flex-direction: column !important;
+  }
+  body.admin-panel-campaigns-open .campaign-upload-row {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+  }
+}
