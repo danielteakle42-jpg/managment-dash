@@ -2,6 +2,8 @@
 
 import {useEffect} from "react";
 
+const BAN_HELP_URL="https://api.whatsapp.com/send/?phone=%2B447413269978&text&type=phone_number&app_absent=0&wame_ctl=1";
+
 function navButtonContaining(text:string){
   const needle=text.toLowerCase();
   const buttons=[...document.querySelectorAll<HTMLButtonElement>(".mobile-tabs button, .sidebar nav button")];
@@ -48,14 +50,34 @@ function simplifyCreatorNavigation(){
   }
 }
 
-function ensureHeaderActions(){
-  const heading=[...document.querySelectorAll<HTMLElement>(".page-heading h1")].find((item)=>item.textContent?.trim().startsWith("Your pulse,"));
-  if(!heading)return;
+function personalizeDashboardHeading(){
+  const headings=[...document.querySelectorAll<HTMLElement>(".page-heading")];
+  const pageHeading=headings.find((section)=>{
+    const eyebrow=section.querySelector<HTMLElement>(".eyebrow")?.textContent?.trim().toLowerCase()||"";
+    const title=section.querySelector<HTMLElement>("h1")?.textContent?.trim().toLowerCase()||"";
+    return eyebrow==="creator overview"||eyebrow==="my overview"||title.startsWith("your pulse,")||title==="welcome back";
+  });
+  if(!pageHeading)return null;
 
   document.body.classList.add("creator-nav-simplified");
+  pageHeading.classList.add("creator-welcome-heading");
 
-  const pageHeading=heading.closest<HTMLElement>(".page-heading");
-  const pills=pageHeading?.querySelector<HTMLElement>(".heading-pills");
+  const eyebrow=pageHeading.querySelector<HTMLElement>(".eyebrow");
+  const title=pageHeading.querySelector<HTMLElement>("h1");
+  const intro=pageHeading.querySelector<HTMLElement>("div > p:last-child");
+
+  if(eyebrow)eyebrow.textContent="MY OVERVIEW";
+  if(title)title.textContent="Welcome back";
+  if(intro)intro.textContent="Your progress, campaigns and support are all here in one place.";
+
+  return pageHeading;
+}
+
+function ensureHeaderActions(){
+  const pageHeading=personalizeDashboardHeading();
+  if(!pageHeading)return;
+
+  const pills=pageHeading.querySelector<HTMLElement>(".heading-pills");
   if(!pills)return;
 
   const tierPill=pills.querySelector<HTMLElement>(".tier-pill");
@@ -95,6 +117,16 @@ function ensureHeaderActions(){
     button.innerHTML='<span class="creator-battle-mark" aria-hidden="true">⚔</span><span>Book arranged battle</span>';
     pills.appendChild(button);
   }
+
+  if(!pills.querySelector(".creator-ban-help-top")){
+    const button=document.createElement("button");
+    button.type="button";
+    button.className="creator-ban-help-top";
+    button.dataset.creatorAction="ban";
+    button.setAttribute("aria-label","Open ban help");
+    button.innerHTML='<span class="creator-ban-mark" aria-hidden="true">!</span><span>Ban help</span>';
+    pills.appendChild(button);
+  }
 }
 
 function simplifyTierCopy(){
@@ -126,6 +158,7 @@ export default function CreatorDashboardEnhancements(){
       if(action==="message")goToNavigation("message");
       if(action==="battle")goToNavigation("arranged",".month-nav");
       if(action==="month")openDailyBreakdown();
+      if(action==="ban")window.open(BAN_HELP_URL,"_blank","noopener,noreferrer");
       return true;
     };
 
