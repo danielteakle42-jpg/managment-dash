@@ -10,6 +10,7 @@ import "./role-experience.css";
 import "./leaderboard-upgrade.css";
 import RoleExperience from "./role-experience";
 import LeaderboardEnhancements from "./leaderboard-enhancements";
+import RoleViewSync from "./role-view-sync";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -50,6 +51,7 @@ export default function RootLayout({
         {children}
         <RoleExperience />
         <LeaderboardEnhancements />
+        <RoleViewSync />
       </body>
     </html>
   );
