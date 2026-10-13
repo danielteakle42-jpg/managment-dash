@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import "./creator-refresh.css";
+import "./creator-simplify.css";
+import CreatorDashboardEnhancements from "./creator-dashboard-enhancements";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -40,6 +42,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
+        <CreatorDashboardEnhancements />
       </body>
     </html>
   );
