@@ -4,6 +4,17 @@ import {useEffect} from "react";
 
 const BAN_HELP_URL="https://api.whatsapp.com/send/?phone=%2B447413269978&text&type=phone_number&app_absent=0&wame_ctl=1";
 
+function shellRole(){
+  const role=(document.querySelector<HTMLElement>(".profile-mini small")?.textContent||"").trim().toLowerCase();
+  if(role.includes("agency owner"))return "admin";
+  if(role==="manager")return "manager";
+  return "creator";
+}
+
+function isCreator(){
+  return shellRole()==="creator" && !document.querySelector(".login-page");
+}
+
 function navButtonContaining(text:string){
   const needle=text.toLowerCase();
   const buttons=[...document.querySelectorAll<HTMLButtonElement>(".mobile-tabs button, .sidebar nav button")];
@@ -11,6 +22,7 @@ function navButtonContaining(text:string){
 }
 
 function goToNavigation(text:string,focusSelector?:string){
+  if(!isCreator())return;
   const button=navButtonContaining(text);
   if(!button)return;
   button.click();
@@ -32,14 +44,25 @@ function goToNavigation(text:string,focusSelector?:string){
 }
 
 function openDailyBreakdown(){
+  if(!isCreator())return;
   const details=document.querySelector<HTMLDetailsElement>(".daily-panel");
   if(!details)return;
   details.open=true;
   window.requestAnimationFrame(()=>details.scrollIntoView({behavior:"smooth",block:"start"}));
 }
 
+function clearCreatorState(){
+  document.body.classList.remove("creator-nav-simplified");
+  const buttons=[...document.querySelectorAll<HTMLButtonElement>(".mobile-tabs button, .sidebar nav button")];
+  for(const button of buttons){
+    button.classList.remove("creator-hidden-nav-item");
+    button.removeAttribute("aria-hidden");
+    button.removeAttribute("tabindex");
+  }
+}
+
 function simplifyCreatorNavigation(){
-  if(!document.body.classList.contains("creator-nav-simplified"))return;
+  if(!isCreator() || !document.body.classList.contains("creator-nav-simplified"))return;
   const buttons=[...document.querySelectorAll<HTMLButtonElement>(".mobile-tabs button, .sidebar nav button")];
   for(const button of buttons){
     const label=button.textContent?.toLowerCase()||"";
@@ -57,6 +80,7 @@ function simplifyCreatorNavigation(){
 }
 
 function personalizeDashboardHeading(){
+  if(!isCreator())return null;
   const headings=[...document.querySelectorAll<HTMLElement>(".page-heading")];
   const pageHeading=headings.find((section)=>{
     const eyebrow=section.querySelector<HTMLElement>(".eyebrow")?.textContent?.trim().toLowerCase()||"";
@@ -81,6 +105,7 @@ function personalizeDashboardHeading(){
 }
 
 function ensureHeaderActions(){
+  if(!isCreator())return;
   const pageHeading=personalizeDashboardHeading();
   if(!pageHeading)return;
 
@@ -137,6 +162,7 @@ function ensureHeaderActions(){
 }
 
 function simplifyTierCopy(){
+  if(!isCreator())return;
   const progressTitle=document.querySelector<HTMLElement>(".progress-panel .panel-heading h2");
   const progressEyebrow=document.querySelector<HTMLElement>(".progress-panel .panel-heading .eyebrow");
   const tierPill=document.querySelector<HTMLElement>(".page-heading .tier-pill");
@@ -153,6 +179,10 @@ function simplifyTierCopy(){
 }
 
 function applyCreatorEnhancements(){
+  if(!isCreator()){
+    clearCreatorState();
+    return;
+  }
   ensureHeaderActions();
   simplifyTierCopy();
   simplifyCreatorNavigation();
@@ -170,6 +200,7 @@ export default function CreatorDashboardEnhancements(){
     };
 
     const activate=(target:EventTarget|null)=>{
+      if(!isCreator())return false;
       const element=(target as HTMLElement|null)?.closest<HTMLElement>("[data-creator-action]");
       if(!element)return false;
       const action=element.dataset.creatorAction;
