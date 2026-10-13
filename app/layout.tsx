@@ -6,9 +6,8 @@ import "./creator-simplify.css";
 import "./creator-tool-pages.css";
 import "./admin-simplify.css";
 import "./manager-admin-navigation.css";
-import CreatorDashboardEnhancements from "./creator-dashboard-enhancements";
-import AdminEnhancements from "./admin-enhancements";
-import ManagerAdminNavigation from "./manager-admin-navigation";
+import "./role-experience.css";
+import RoleExperience from "./role-experience";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -47,9 +46,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
-        <CreatorDashboardEnhancements />
-        <AdminEnhancements />
-        <ManagerAdminNavigation />
+        <RoleExperience />
       </body>
     </html>
   );
