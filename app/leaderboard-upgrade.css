@@ -1,0 +1,520 @@
+/* Shared leaderboard upgrade across Creator, Manager and Admin. */
+
+.leaderboard-upgraded-heading {
+  margin-bottom: 14px !important;
+}
+.leaderboard-upgraded-heading h1 {
+  font-size: clamp(32px, 4vw, 46px) !important;
+  letter-spacing: -.045em !important;
+}
+.leaderboard-upgraded-heading > div:first-child > p:last-child {
+  color: #7d869b !important;
+  font-size: 11px !important;
+}
+
+.leaderboard-filter-bar {
+  display: grid;
+  grid-template-columns: minmax(0,1fr) auto auto;
+  align-items: center;
+  gap: 18px;
+  margin: 0 0 12px;
+  padding: 14px 16px;
+  border: 1px solid rgba(255,255,255,.065);
+  border-radius: 15px;
+  background: rgba(6,11,23,.72);
+  box-shadow: none;
+}
+.leaderboard-filter-copy {
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+.leaderboard-view-label {
+  color: #78829b;
+  font-size: 8px;
+  line-height: 1;
+  font-weight: 860;
+  letter-spacing: .13em;
+}
+.leaderboard-filter-copy strong {
+  margin-top: 2px;
+  color: #eef2fb;
+  font-size: 13px;
+  letter-spacing: -.015em;
+}
+.leaderboard-filter-copy small {
+  color: #717b91;
+  font-size: 10px;
+  line-height: 1.45;
+}
+.leaderboard-result-count {
+  min-width: max-content;
+  padding: 7px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.07);
+  background: rgba(255,255,255,.025);
+  color: #8d96aa;
+  font-size: 9px;
+  font-weight: 720;
+}
+
+.leaderboard-agency-switch {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px;
+  border-radius: 11px;
+  border: 1px solid rgba(255,255,255,.06);
+  background: rgba(255,255,255,.018);
+}
+.leaderboard-agency-switch button {
+  min-height: 31px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #7f889c;
+  font: inherit;
+  font-size: 9px;
+  font-weight: 760;
+  cursor: pointer;
+  transition: background .14s ease, color .14s ease, transform .14s ease;
+}
+.leaderboard-agency-switch button:hover,
+.leaderboard-agency-switch button:focus-visible {
+  color: #dce2f2;
+  background: rgba(255,255,255,.04);
+  outline: none;
+}
+.leaderboard-agency-switch button.active {
+  color: #f3f5fb;
+  background: rgba(112,118,255,.10);
+  box-shadow: inset 0 0 0 1px rgba(128,127,255,.16);
+}
+
+/* Position card */
+.your-rank-card {
+  border-radius: 17px !important;
+  border: 1px solid rgba(113,126,255,.14) !important;
+  background: linear-gradient(180deg, rgba(84,94,180,.055), rgba(6,11,23,.72)) !important;
+  box-shadow: none !important;
+  overflow: hidden;
+}
+.your-rank-card::before {
+  opacity: .34 !important;
+}
+.your-rank-avatar {
+  box-shadow: none !important;
+}
+.your-rank-copy strong {
+  letter-spacing: -.035em !important;
+}
+.rank-targets span {
+  border-color: rgba(255,255,255,.065) !important;
+  background: rgba(255,255,255,.022) !important;
+  box-shadow: none !important;
+}
+.rank-targets b {
+  color: #dfe5f5 !important;
+}
+.rank-targets small {
+  color: #737e94 !important;
+}
+
+/* Main controls */
+.leader-controls {
+  gap: 10px !important;
+  margin: 12px 0 !important;
+}
+.leader-controls .segmented,
+.leader-controls .search-box {
+  border-color: rgba(255,255,255,.065) !important;
+  background: rgba(7,12,24,.66) !important;
+  box-shadow: none !important;
+}
+.leader-controls .segmented button {
+  min-height: 40px !important;
+  font-size: 10px !important;
+}
+.leader-controls .segmented button.active {
+  background: rgba(112,118,255,.10) !important;
+  box-shadow: inset 0 0 0 1px rgba(128,127,255,.16) !important;
+}
+.leader-controls .search-box input {
+  font-size: 11px !important;
+}
+
+/* Overall top three */
+.competitive-podium {
+  gap: 10px !important;
+  margin: 0 0 12px !important;
+}
+.competitive-podium .podium-card {
+  min-height: 260px !important;
+  border-radius: 17px !important;
+  border: 1px solid rgba(255,255,255,.065) !important;
+  background: linear-gradient(180deg, rgba(255,255,255,.025), rgba(6,10,21,.66)) !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+.competitive-podium .podium-card.champion {
+  border-color: rgba(150,125,255,.18) !important;
+  background: linear-gradient(180deg, rgba(111,85,196,.06), rgba(6,10,21,.72)) !important;
+}
+.competitive-podium .rank-badge {
+  box-shadow: none !important;
+}
+.competitive-podium .creator-avatar {
+  box-shadow: none !important;
+}
+.competitive-podium .leader-crown {
+  filter: none !important;
+  text-shadow: none !important;
+}
+.competitive-podium .podium-title {
+  color: #778197 !important;
+  letter-spacing: .10em !important;
+}
+.competitive-podium .podium-card > b {
+  color: #f0f3fb !important;
+}
+.competitive-podium .overtake-gap {
+  border-color: rgba(255,255,255,.065) !important;
+  background: rgba(255,255,255,.022) !important;
+  color: #929bb0 !important;
+}
+
+/* Filtered agency podium */
+.filtered-agency-podium {
+  margin: 0 0 12px;
+  padding: 16px;
+  border: 1px solid rgba(255,255,255,.065);
+  border-radius: 17px;
+  background: rgba(6,11,23,.66);
+}
+.filtered-agency-podium[hidden] { display: none !important; }
+.filtered-podium-heading {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.filtered-podium-heading span {
+  color: #7d879c;
+  font-size: 8px;
+  font-weight: 860;
+  letter-spacing: .13em;
+}
+.filtered-podium-heading strong {
+  color: #edf1fa;
+  font-size: 15px;
+  letter-spacing: -.02em;
+}
+.filtered-podium-heading small {
+  margin-left: auto;
+  color: #737d91;
+  font-size: 9px;
+}
+.filtered-podium-cards {
+  display: grid;
+  grid-template-columns: repeat(3,minmax(0,1fr));
+  gap: 8px;
+}
+.filtered-podium-card {
+  min-height: 128px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-rows: auto auto auto;
+  align-items: center;
+  gap: 4px 10px;
+  padding: 13px;
+  border: 1px solid rgba(255,255,255,.055);
+  border-radius: 13px;
+  background: rgba(255,255,255,.018);
+}
+.filtered-podium-card.filtered-place-1 {
+  border-color: rgba(143,115,255,.16);
+  background: rgba(111,85,196,.045);
+}
+.filtered-rank {
+  grid-row: 1 / 4;
+  align-self: start;
+  color: #8e98b0;
+  font-size: 11px;
+  font-weight: 850;
+}
+.filtered-avatar {
+  grid-row: 1 / 4;
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.filtered-avatar img,
+.filtered-avatar .creator-photo,
+.filtered-avatar .avatar-fallback {
+  width: 100% !important;
+  height: 100% !important;
+}
+.filtered-podium-card > strong {
+  align-self: end;
+  color: #edf1fa;
+  font-size: 11px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.filtered-podium-card > b {
+  color: #dfe5f5;
+  font-size: 15px;
+  letter-spacing: -.02em;
+}
+.filtered-podium-card > small {
+  color: #747e93;
+  font-size: 8px;
+  font-weight: 700;
+}
+.filtered-podium-empty {
+  padding: 24px;
+  text-align: center;
+  color: #788196;
+  font-size: 10px;
+}
+
+/* Full table */
+.competitive-table {
+  border-radius: 17px !important;
+  border-color: rgba(255,255,255,.065) !important;
+  box-shadow: none !important;
+  overflow: hidden;
+}
+.competitive-table .table-kicker {
+  border-bottom-color: rgba(255,255,255,.055) !important;
+}
+.competitive-table .table-kicker span {
+  color: #eef2fb !important;
+  font-weight: 790 !important;
+}
+.competitive-table .table-kicker small {
+  color: #727c91 !important;
+}
+.competitive-table .table-head {
+  color: #697388 !important;
+  font-size: 8px !important;
+  letter-spacing: .08em !important;
+}
+.competitive-table .table-row {
+  border-bottom-color: rgba(255,255,255,.045) !important;
+  transition: background .12s ease, border-color .12s ease !important;
+}
+.competitive-table .table-row:hover {
+  background: rgba(255,255,255,.018) !important;
+}
+.competitive-table .table-row.is-you {
+  position: relative;
+  background: rgba(103,111,255,.055) !important;
+  box-shadow: inset 3px 0 0 rgba(118,127,255,.56) !important;
+}
+.competitive-table .table-row.is-you .creator-cell b::after {
+  content: "YOU";
+  display: inline-flex;
+  margin-left: 7px;
+  padding: 2px 5px;
+  border-radius: 999px;
+  background: rgba(118,127,255,.11);
+  color: #b9c0ff;
+  font-size: 7px;
+  font-weight: 850;
+  letter-spacing: .08em;
+  vertical-align: middle;
+}
+.competitive-table .top-three-row {
+  background: transparent !important;
+}
+.competitive-table .rank-number {
+  color: #9aa4bb !important;
+  font-weight: 850 !important;
+}
+.competitive-table .creator-cell i {
+  box-shadow: none !important;
+}
+.competitive-table .creator-cell b {
+  color: #e9edf7 !important;
+}
+.competitive-table .creator-cell small {
+  color: #70798e !important;
+  line-height: 1.45 !important;
+}
+.leader-agency-pill {
+  display: inline-flex;
+  width: max-content;
+  margin-top: 4px;
+  padding: 2px 6px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.055);
+  background: rgba(255,255,255,.018);
+  color: #808a9f;
+  font-size: 7px;
+  font-weight: 780;
+  line-height: 1.4;
+}
+.leader-agency-pill.platinum {
+  border-color: rgba(107,151,255,.11);
+  color: #91a9d8;
+}
+.leader-agency-pill.void {
+  border-color: rgba(151,113,255,.12);
+  color: #a89ad2;
+}
+
+.competitive-table .table-row[hidden] { display: none !important; }
+
+/* Role-specific subtle emphasis */
+.role-admin .leaderboard-filter-bar {
+  border-color: rgba(91,145,255,.09);
+}
+.role-manager .leaderboard-filter-bar {
+  border-color: rgba(140,111,255,.09);
+}
+.role-creator .your-rank-card {
+  margin-bottom: 12px !important;
+}
+
+@media (hover:none) {
+  .leaderboard-agency-switch button:hover,
+  .competitive-table .table-row:hover,
+  .competitive-podium .podium-card:hover,
+  .filtered-podium-card:hover {
+    transform: none !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .leaderboard-filter-bar {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .leaderboard-result-count {
+    width: max-content;
+  }
+  .leaderboard-agency-switch {
+    width: 100%;
+  }
+  .leaderboard-agency-switch button {
+    flex: 1 1 0;
+  }
+  .filtered-podium-cards {
+    grid-template-columns: 1fr;
+  }
+  .filtered-podium-card {
+    min-height: 88px;
+  }
+}
+
+@media (max-width: 760px) {
+  .leaderboard-upgraded-heading h1 {
+    font-size: 34px !important;
+  }
+  .leaderboard-filter-bar {
+    padding: 13px;
+    border-radius: 14px;
+  }
+  .leaderboard-filter-copy small {
+    display: none;
+  }
+  .leaderboard-agency-switch {
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .leaderboard-agency-switch::-webkit-scrollbar { display: none; }
+  .leaderboard-agency-switch button {
+    min-width: 95px;
+  }
+  .leader-controls {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+  }
+  .leader-controls .segmented {
+    width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .leader-controls .segmented::-webkit-scrollbar { display: none; }
+  .leader-controls .segmented button {
+    min-width: 104px;
+    flex: 1 0 auto;
+  }
+  .leader-controls .search-box {
+    width: 100% !important;
+  }
+  .competitive-podium {
+    grid-template-columns: 1fr !important;
+  }
+  .competitive-podium .podium-card {
+    min-height: 190px !important;
+  }
+
+  /* Mobile only shows the selected metric alongside rank + creator. */
+  .competitive-table .table-head,
+  .competitive-table .table-row {
+    grid-template-columns: 50px minmax(0,1fr) 92px !important;
+  }
+  .competitive-table .table-head span:nth-child(3),
+  .competitive-table .table-head span:nth-child(4),
+  .competitive-table .table-head span:nth-child(5),
+  .competitive-table .table-row > span:nth-child(3),
+  .competitive-table .table-row > span:nth-child(4),
+  .competitive-table .table-row > span:nth-child(5) {
+    display: none !important;
+  }
+  .leader-metric-live .competitive-table .table-head span:nth-child(3),
+  .leader-metric-live .competitive-table .table-row > span:nth-child(3),
+  .leader-metric-diamonds .competitive-table .table-head span:nth-child(4),
+  .leader-metric-diamonds .competitive-table .table-row > span:nth-child(4),
+  .leader-metric-days .competitive-table .table-head span:nth-child(5),
+  .leader-metric-days .competitive-table .table-row > span:nth-child(5) {
+    display: flex !important;
+  }
+  .leader-metric-live .competitive-table .table-head span:nth-child(3),
+  .leader-metric-live .competitive-table .table-row > span:nth-child(3),
+  .leader-metric-diamonds .competitive-table .table-head span:nth-child(4),
+  .leader-metric-diamonds .competitive-table .table-row > span:nth-child(4),
+  .leader-metric-days .competitive-table .table-head span:nth-child(5),
+  .leader-metric-days .competitive-table .table-row > span:nth-child(5) {
+    grid-column: 3;
+  }
+  .competitive-table .creator-cell small {
+    max-width: 210px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 480px) {
+  .leaderboard-filter-bar {
+    margin-left: -2px;
+    margin-right: -2px;
+  }
+  .leaderboard-result-count {
+    font-size: 8px;
+  }
+  .filtered-agency-podium {
+    padding: 13px;
+  }
+  .filtered-podium-heading {
+    flex-wrap: wrap;
+  }
+  .filtered-podium-heading small {
+    width: 100%;
+    margin-left: 0;
+  }
+  .competitive-table .table-head,
+  .competitive-table .table-row {
+    grid-template-columns: 43px minmax(0,1fr) 82px !important;
+  }
+  .competitive-table .creator-cell i {
+    width: 34px !important;
+    height: 34px !important;
+  }
+}
