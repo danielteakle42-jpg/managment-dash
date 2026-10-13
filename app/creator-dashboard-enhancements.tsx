@@ -8,11 +8,25 @@ function navButtonContaining(text:string){
   return buttons.find((button)=>button.textContent?.toLowerCase().includes(needle));
 }
 
-function goToNavigation(text:string){
+function goToNavigation(text:string,focusSelector?:string){
   const button=navButtonContaining(text);
   if(button){
     button.click();
-    window.scrollTo({top:0,behavior:"smooth"});
+    if(!focusSelector){
+      window.scrollTo({top:0,behavior:"smooth"});
+      return;
+    }
+    let tries=0;
+    const focus=()=>{
+      const target=document.querySelector<HTMLElement>(focusSelector);
+      if(target){
+        target.scrollIntoView({behavior:"smooth",block:"start"});
+        return;
+      }
+      tries+=1;
+      if(tries<12)window.setTimeout(focus,60);
+    };
+    window.setTimeout(focus,60);
   }
 }
 
@@ -110,7 +124,7 @@ export default function CreatorDashboardEnhancements(){
       if(!element)return false;
       const action=element.dataset.creatorAction;
       if(action==="message")goToNavigation("message");
-      if(action==="battle")goToNavigation("arranged");
+      if(action==="battle")goToNavigation("arranged",".month-nav");
       if(action==="month")openDailyBreakdown();
       return true;
     };
