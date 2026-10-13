@@ -36,9 +36,23 @@ function setHidden(button:HTMLButtonElement,hidden:boolean){
   }
 }
 
+function resetRoleNavigation(){
+  document.body.classList.remove("owner-nav-simplified","manager-nav-simplified");
+  for(const button of navButtons()){
+    button.classList.remove("role-hidden-nav");
+    button.removeAttribute("aria-hidden");
+    button.removeAttribute("tabindex");
+  }
+}
+
 function simplifyNavigation(){
   const role=roleFromShell();
   const buttons=navButtons();
+
+  if(role==="creator"){
+    resetRoleNavigation();
+    return;
+  }
 
   if(role==="admin"){
     document.body.classList.add("owner-nav-simplified");
@@ -51,18 +65,16 @@ function simplifyNavigation(){
     return;
   }
 
-  if(role==="manager"){
-    document.body.classList.add("manager-nav-simplified");
-    document.body.classList.remove("owner-nav-simplified");
-    for(const button of buttons){
-      const label=(button.textContent||"").toLowerCase();
-      const managerView=label.includes("message manager")||label.includes("ban help")||label.includes("manager view");
-      const managerControl=label.includes("manager control");
-      setHidden(button,!(managerView||managerControl));
-      if(managerView){
-        const span=button.querySelector("span");
-        if(span)span.textContent="Manager View";
-      }
+  document.body.classList.add("manager-nav-simplified");
+  document.body.classList.remove("owner-nav-simplified");
+  for(const button of buttons){
+    const label=(button.textContent||"").toLowerCase();
+    const managerView=label.includes("message manager")||label.includes("ban help")||label.includes("manager view");
+    const managerControl=label.includes("manager control");
+    setHidden(button,!(managerView||managerControl));
+    if(managerView){
+      const span=button.querySelector("span");
+      if(span)span.textContent="Manager View";
     }
   }
 }
@@ -124,7 +136,7 @@ export default function ManagerAdminNavigation(){
     const click=(event:MouseEvent)=>{
       if(keepAdminOnAdminView(event))return;
       const action=(event.target as HTMLElement|null)?.closest<HTMLElement>("[data-manager-destination]");
-      if(action){
+      if(action && roleFromShell()==="manager"){
         event.preventDefault();
         activateNav(action.dataset.managerDestination||"");
       }
