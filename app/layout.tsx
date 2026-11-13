@@ -8,6 +8,7 @@ import "./admin-simplify.css";
 import "./manager-admin-navigation.css";
 import "./role-experience.css";
 import "./leaderboard-upgrade.css";
+import "./platinum-brand.css";
 import RoleExperience from "./role-experience";
 import LeaderboardEnhancements from "./leaderboard-enhancements";
 import RoleViewSync from "./role-view-sync";
@@ -23,18 +24,15 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Platinum Pulse × VOID | Creator Hub",
-  description: "Creator performance, leaderboards, incentives and campaigns for Platinum Pulse and VOID.",
+  title: "Platinum Pulse | Creator Hub",
+  description: "Creator performance, leaderboards, incentives and campaigns for Platinum Pulse Network.",
   manifest: "/manifest.webmanifest",
   themeColor: "#020914",
   appleWebApp: { capable: true, title: "Creator Hub", statusBarStyle: "black-translucent" },
-  other: {
-    "codex-preview": "development",
-  },
   icons: {
-    icon: [{ url: "/favicon.png", type: "image/png" }, { url: "/app-icon.png", sizes: "512x512", type: "image/png" }],
-    shortcut: "/favicon.png",
-    apple: "/apple-touch-icon.png",
+    icon: [{ url: "/favicon-platinum.png", type: "image/png" }, { url: "/app-icon-platinum.png", sizes: "512x512", type: "image/png" }],
+    shortcut: "/favicon-platinum.png",
+    apple: "/apple-touch-icon-platinum.png",
   },
 };
 

@@ -37,3 +37,9 @@ export function cleanUsername(username: string) {
 export function avatarFor(record: Pick<CreatorMetric, "username" | "avatar_url">) {
   return record.avatar_url?.trim() || `https://unavatar.io/tiktok/${encodeURIComponent(cleanUsername(record.username))}`;
 }
+
+// Keep historical group identifiers intact for permissions and imported records.
+export function agencyLabel(group?: string | null, fallback = "Platinum Pulse") {
+  const label = group?.trim();
+  return label && /\bvoid\b/i.test(label) ? "Platinum Pulse" : label || fallback;
+}

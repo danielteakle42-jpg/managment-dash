@@ -1,4 +1,4 @@
-# Platinum Pulse × VOID Creator Hub
+# Platinum Pulse Creator Hub
 
 ## Start the website on Windows
 
@@ -6,7 +6,7 @@ Extract the ZIP, then double-click `OPEN-ME-IN-VSCODE.code-workspace`. You can
 double-click `START-WEBSITE.bat` to install the packages and start the website
 from the correct main folder.
 
-A responsive creator performance dashboard for Platinum Pulse and VOID. It includes:
+A responsive creator performance dashboard for Platinum Pulse Network. It includes:
 
 - creator login using only their imported TikTok username
 - a private personal dashboard for LIVE hours, diamonds and valid LIVE days
@@ -190,7 +190,7 @@ This build was audited against the v26 source. Key fixes retained/added:
 - Historical valid LIVE days are now calculated from TikTok's cumulative valid-day field, not guessed from LIVE minutes.
 - Dashboard upcoming battle lookup loads match entries separately and ignores battles whose time has already passed today.
 - Arranged Battles loads matches + entries separately, orders Next Up by scheduled date/time, and refreshes after pairing.
-- Dashboard poster remains a dropdown; VOID group creators get VOID artwork; all other/no-group creators get Platinum artwork.
+- Dashboard poster remains a dropdown; all creators use Platinum Pulse artwork.
 - Sidebar now shows the signed-in creator's own group instead of the first leaderboard creator's group.
 - Agency Chat remains removed.
 
@@ -234,4 +234,4 @@ Owner login remains the existing `ppn777` flow (set through `ADMIN_LOGIN_CODE`).
 Security note: creator access in this project intentionally remains username-only, as it was before V31. Chat threads are separated by creator username in the UI/API, but username-only login cannot provide strong identity verification if another person knows a creator's username. For cryptographically private creator chat, creator authentication (OTP/password/magic link) should be added later.
 
 ## V32 upgrade
-After the V31 migration, run `supabase/V32-UNIFIED-LOGIN-CAMPAIGNS.sql` once in Supabase SQL Editor. Managers now sign in through the same Creator & Manager login card using their manager username + password; creators leave the password blank. Owner login remains separate. Manager accounts are stored in Supabase Auth/profiles and never in imported creator performance rows. Admin can assign each manager to Platinum Pulse or VOID. Campaign banners uploaded by Owner are stored in the `campaign-banners` Supabase Storage bucket and appear on creator dashboards under the arranged-battle poster dropdown.
+After the V31 migration, run `supabase/V32-UNIFIED-LOGIN-CAMPAIGNS.sql` once in Supabase SQL Editor. Managers now sign in through the same Creator & Manager login card using their manager username + password; creators leave the password blank. Owner login remains separate. Manager accounts are stored in Supabase Auth/profiles and never in imported creator performance rows. Admin can assign each manager to Platinum Pulse. Campaign banners uploaded by Owner are stored in the `campaign-banners` Supabase Storage bucket and appear on creator dashboards under the arranged-battle poster dropdown.

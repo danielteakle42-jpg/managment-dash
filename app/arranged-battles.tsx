@@ -166,11 +166,7 @@ export function UpcomingBattleCard({ battle, currentUsername, records }: { battl
       const canvas = canvasRef.current;
       const ctx = canvas.getContext("2d"); if (!ctx) return;
       try {
-        const currentRecord = records.find((r) => cleanUsername(r.username) === cleanUsername(currentUsername));
-        const creatorGroup = String(currentRecord?.group_name || posterGroup || "").trim().toLowerCase();
-        // VOID creators use the VOID artwork. Everyone else (including creators with no group) uses Platinum Pulse.
-        const useVoidPoster = creatorGroup.includes("void");
-        const posterSrc = useVoidPoster ? "/void-arranged-battle-poster.jpg" : "/arranged-battle-poster.jpg";
+        const posterSrc = "/arranged-battle-poster.jpg";
         const [bg, leftImg, rightImg] = await Promise.all([
           loadImage(posterSrc), loadImage(avatarSrc(left.username)), loadImage(avatarSrc(right.username))
         ]);
@@ -201,29 +197,16 @@ export function UpcomingBattleCard({ battle, currentUsername, records }: { battl
         const [y,m,d] = date.split("-").map(Number);
         const dateText = `${d} ${MONTH_NAMES[m-1]} ${y}  •  ${timeLabel(time)}`;
 
-        if (useVoidPoster) {
-          // Measured from the supplied 1024 x 1536 VOID artwork.
-          // Keep the photos inside the illuminated purple rings so the ring itself remains visible.
-          circle(leftImg, 212, 935, 136);
-          circle(rightImg, 807, 936, 136);
-          ctx.font = "700 28px Arial"; ctx.fillStyle = "#f8f2ff";
-          ctx.shadowColor = "#a855f7"; ctx.shadowBlur = 12;
-          ctx.fillText(`@${left.username}`, 246, 1144, 315);
-          ctx.fillText(`@${right.username}`, 778, 1144, 315);
-          ctx.font = "700 30px Arial"; ctx.shadowBlur = 14;
-          ctx.fillText(dateText.toUpperCase(), 512, 1332, 760);
-        } else {
-          // Measured directly from the supplied 710 x 1536 Platinum Pulse artwork.
-          // Neon ring centres are ~189,1094 and ~523,1093 with an outer radius of ~73px.
-          circle(leftImg, 189, 1094, 68);
-          circle(rightImg, 523, 1093, 68);
-          ctx.font = "700 21px Arial"; ctx.fillStyle = "#eef7ff";
-          ctx.shadowColor = "#168cff"; ctx.shadowBlur = 8;
-          ctx.fillText(`@${left.username}`, 189, 1191, 190);
-          ctx.fillText(`@${right.username}`, 523, 1191, 190);
-          ctx.shadowBlur = 10; ctx.font = "700 25px Arial";
-          ctx.fillText(dateText.toUpperCase(), 355, 1303, 570);
-        }
+        // Measured directly from the supplied 710 x 1536 Platinum Pulse artwork.
+        // Neon ring centres are ~189,1094 and ~523,1093 with an outer radius of ~73px.
+        circle(leftImg, 189, 1094, 68);
+        circle(rightImg, 523, 1093, 68);
+        ctx.font = "700 21px Arial"; ctx.fillStyle = "#eef7ff";
+        ctx.shadowColor = "#168cff"; ctx.shadowBlur = 8;
+        ctx.fillText(`@${left.username}`, 189, 1191, 190);
+        ctx.fillText(`@${right.username}`, 523, 1191, 190);
+        ctx.shadowBlur = 10; ctx.font = "700 25px Arial";
+        ctx.fillText(dateText.toUpperCase(), 355, 1303, 570);
         setReady(true);
       } catch (e) { console.error("Could not render battle poster", e); setReady(false); }
     };

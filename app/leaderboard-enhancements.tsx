@@ -14,13 +14,6 @@ function leaderboardOpen() {
   return Boolean(document.querySelector(".leaderboard-heading") && document.querySelector(".competitive-table"));
 }
 
-function agencyFor(element: Element) {
-  const text = (element.textContent || "").toLowerCase();
-  if (text.includes("platinum pulse")) return "platinum";
-  if (text.includes("void")) return "void";
-  return "other";
-}
-
 function activeMetric() {
   const active = document.querySelector<HTMLElement>(".leader-controls .segmented button.active");
   const text = (active?.textContent || "").toLowerCase();
@@ -60,20 +53,17 @@ function ensureOverviewBar() {
 function decorateRows(rows: HTMLElement[]) {
   rows.forEach((row) => {
     row.hidden = false;
-    const agency = agencyFor(row);
-    row.classList.toggle("agency-platinum-row", agency === "platinum");
-    row.classList.toggle("agency-void-row", agency === "void");
+    row.classList.add("agency-platinum-row");
 
     const rank = row.querySelector<HTMLElement>(".rank-number");
     if (rank && row.dataset.originalRank) rank.textContent = row.dataset.originalRank;
 
     const creatorCell = row.querySelector<HTMLElement>(".creator-cell > span");
     if (!creatorCell || creatorCell.querySelector(".leader-agency-pill")) return;
-    if (agency !== "platinum" && agency !== "void") return;
 
     const pill = document.createElement("span");
-    pill.className = `leader-agency-pill ${agency}`;
-    pill.textContent = agency === "platinum" ? "Platinum Pulse" : "VOID";
+    pill.className = "leader-agency-pill platinum";
+    pill.textContent = "Platinum Pulse";
     creatorCell.appendChild(pill);
   });
 }
@@ -84,7 +74,7 @@ function applyEnhancements() {
   const rows = [...document.querySelectorAll<HTMLElement>(".competitive-table .table-row")];
   if (!content) return;
 
-  content.classList.remove("leader-filter-all", "leader-filter-platinum", "leader-filter-void", "leader-metric-live", "leader-metric-diamonds", "leader-metric-days");
+  content.classList.remove("leader-filter-all", "leader-filter-platinum", "leader-metric-live", "leader-metric-diamonds", "leader-metric-days");
   content.classList.add("leader-filter-all", `leader-metric-${activeMetric()}`);
 
   document.querySelector<HTMLElement>(".competitive-podium")?.removeAttribute("hidden");

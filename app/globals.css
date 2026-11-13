@@ -24,7 +24,7 @@ body::before {
   background:
     radial-gradient(circle at 78% -15%, rgba(106, 69, 255, .18), transparent 33%),
     linear-gradient(rgba(6, 7, 16, .88), rgba(6, 7, 16, .96)),
-    url("/pulse-cosmic-bg.jpeg") center/cover;
+    url("/platinum-water-background.jpg") center/cover;
 }
 
 .eyebrow { margin: 0 0 8px; color: #aaa1dd; font-size: 11px; font-weight: 800; letter-spacing: .19em; text-transform: uppercase; }
@@ -41,7 +41,7 @@ body::before {
 .login-page { min-height: 100dvh; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(400px, .85fr); position: relative; overflow: hidden; }
 .login-art {
   position: relative; display: flex; align-items: flex-end; padding: clamp(36px, 6vw, 88px);
-  background: linear-gradient(90deg, rgba(4,5,13,.45), rgba(4,5,13,.1)), url("/pulse-cosmic-bg.jpeg") center/cover;
+  background: linear-gradient(90deg, rgba(4,5,13,.45), rgba(4,5,13,.1)), url("/platinum-water-background.jpg") center/cover;
 }
 .login-art::after { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 57% 42%, transparent, rgba(4,5,12,.42) 62%, #060710 118%); }
 .login-art-copy { max-width: 650px; position: relative; z-index: 2; }
@@ -132,7 +132,7 @@ body::before {
 .progress-track i.cyan { color: #39d7ff; background: linear-gradient(90deg, #277acc, #4ee1ff); }
 .progress-row small { display: block; margin-top: 7px; color: #656b88; font-size: 9px; }
 .focus-card { min-height: 360px; position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; padding: 26px; }
-.focus-card::before { content: ""; position: absolute; inset: 0; opacity: .24; background: linear-gradient(rgba(9,10,25,.2), rgba(9,10,25,.94)), url("/platinum-pulse-void-logo.jpeg") center 20%/cover; }
+.focus-card::before { content: ""; position: absolute; inset: 0; opacity: .24; background: linear-gradient(rgba(9,10,25,.2), rgba(9,10,25,.94)), url("/platinum-logo.jpg") center 20%/cover; }
 .focus-card > * { position: relative; }
 .focus-orb { position: absolute; top: 25px; right: 25px; width: 47px; height: 47px; display: grid; place-items: center; color: #b894ff; background: rgba(130,84,255,.16); border: 1px solid rgba(174,131,255,.25); border-radius: 50%; }
 .focus-card h2 { max-width: 310px; font-size: 25px; }
@@ -204,7 +204,7 @@ body::before {
 .fine-print { margin-top: 18px; color: #6f7592; font-size: 10px; text-align: center; }
 
 .campaign-hero { min-height: 470px; padding: clamp(26px,5vw,64px); display: grid; grid-template-columns: 1fr .75fr; align-items: center; overflow: hidden; position: relative; }
-.campaign-hero::before { content:""; position:absolute; inset:0; background: linear-gradient(90deg, rgba(11,12,29,.96) 25%, rgba(11,12,29,.6)), url("/pulse-cosmic-bg.jpeg") right center/cover; opacity:.66; }
+.campaign-hero::before { content:""; position:absolute; inset:0; background: linear-gradient(90deg, rgba(11,12,29,.96) 25%, rgba(11,12,29,.6)), url("/platinum-water-background.jpg") right center/cover; opacity:.66; }
 .campaign-copy, .campaign-visual { position: relative; z-index: 1; }
 .campaign-badge { width: max-content; display:flex; align-items:center; gap:8px; padding:9px 11px; border:1px solid rgba(131,96,255,.25); border-radius:999px; color:#b9a4f7; background:rgba(91,52,191,.12); font-size:10px; font-weight:800; }
 .campaign-badge svg { width:15px; }
@@ -353,8 +353,8 @@ body::before {
 }
 
 @media (max-width: 760px) {
-  body::before { background: linear-gradient(rgba(6,7,16,.89),rgba(6,7,16,.97)), url("/pulse-cosmic-bg.jpeg") top center/auto 100vh fixed; }
-  .login-page { display:block; padding:28px 18px; background:linear-gradient(rgba(5,6,15,.55),rgba(5,6,15,.92)),url("/pulse-cosmic-bg.jpeg") center/cover; }
+  body::before { background: linear-gradient(rgba(6,7,16,.89),rgba(6,7,16,.97)), url("/platinum-water-background.jpg") top center/auto 100vh fixed; }
+  .login-page { display:block; padding:28px 18px; background:linear-gradient(rgba(5,6,15,.55),rgba(5,6,15,.92)),url("/platinum-water-background.jpg") center/cover; }
   .login-art { display:none; }
   .login-panel { min-height:calc(100dvh - 56px); padding:24px; border:1px solid var(--line); border-radius:24px; background:rgba(6,7,17,.78); }
   .login-card { gap:16px; }
@@ -461,7 +461,7 @@ body::before {
   background:
     linear-gradient(90deg, rgba(5, 6, 11, .96), rgba(5, 6, 11, .84)),
     radial-gradient(circle at 75% 20%, rgba(87, 52, 186, .17), transparent 34%),
-    url("/pulse-cosmic-bg.jpeg") center/cover fixed;
+    url("/platinum-water-background.jpg") center/cover fixed;
 }
 
 .eyebrow {
@@ -485,7 +485,7 @@ body::before {
 .login-art {
   background:
     linear-gradient(90deg, rgba(4,5,10,.28), rgba(4,5,10,.02)),
-    url("/pulse-cosmic-bg.jpeg") center/cover;
+    url("/platinum-water-background.jpg") center/cover;
 }
 
 .login-art::before {
@@ -606,7 +606,7 @@ body::before {
   opacity: .2;
   background:
     linear-gradient(180deg, rgba(9,10,20,.08), rgba(8,9,17,.98)),
-    url("/platinum-pulse-void-logo.jpeg") center 18%/cover;
+    url("/platinum-logo.jpg") center 18%/cover;
 }
 
 .daily-panel {
@@ -705,7 +705,7 @@ body::before {
   body::before {
     background:
       linear-gradient(rgba(5,6,11,.91),rgba(5,6,11,.98)),
-      url("/pulse-cosmic-bg.jpeg") top center/auto 100vh fixed;
+      url("/platinum-water-background.jpg") top center/auto 100vh fixed;
   }
   .login-page { padding: 14px; }
   .login-panel {
@@ -763,7 +763,7 @@ body::before {
     radial-gradient(circle at 83% 2%, rgba(41, 126, 255, .14), transparent 30%),
     radial-gradient(circle at 18% 100%, rgba(120, 73, 255, .09), transparent 35%),
     linear-gradient(rgba(4, 7, 14, .90), rgba(4, 7, 14, .97)),
-    url("/pulse-cosmic-bg.jpeg") center/cover;
+    url("/platinum-water-background.jpg") center/cover;
 }
 
 .content { max-width: 1480px; margin: 0 auto; width: 100%; }
@@ -923,7 +923,7 @@ body::before {
   pointer-events:none;
   background:
     linear-gradient(180deg, rgba(2,3,10,.34), rgba(3,4,12,.54) 48%, rgba(2,3,9,.76)),
-    url("/pulse-cosmic-bg.jpeg") center center / cover no-repeat;
+    url("/platinum-water-background.jpg") center center / cover no-repeat;
   transform:scale(1.035);
   animation:cosmicDrift 22s ease-in-out infinite alternate;
 }
@@ -1088,7 +1088,7 @@ body::after {
 .login-art {
   background:
     linear-gradient(90deg, rgba(2,3,10,.26), rgba(2,3,10,.05)),
-    url("/pulse-cosmic-bg.jpeg") center/cover;
+    url("/platinum-water-background.jpg") center/cover;
 }
 .login-panel {
   background:rgba(5,6,18,.46);
@@ -1121,10 +1121,10 @@ body::after {
   opacity:.52;
   background:
     linear-gradient(180deg, rgba(5,6,18,.12), rgba(5,6,18,.88)),
-    url("/platinum-pulse-void-logo.jpeg") center 25%/cover;
+    url("/platinum-logo.jpg") center 25%/cover;
 }
 .campaign-hero::before {
-  background:linear-gradient(90deg, rgba(8,9,25,.90) 25%, rgba(8,9,25,.38)), url("/pulse-cosmic-bg.jpeg") right center/cover;
+  background:linear-gradient(90deg, rgba(8,9,25,.90) 25%, rgba(8,9,25,.38)), url("/platinum-water-background.jpg") right center/cover;
   opacity:.82;
 }
 
@@ -1164,7 +1164,7 @@ body::after {
     inset:-2%;
     background:
       linear-gradient(180deg, rgba(2,3,10,.44), rgba(3,4,12,.70)),
-      url("/pulse-cosmic-bg.jpeg") center top / cover no-repeat;
+      url("/platinum-water-background.jpg") center top / cover no-repeat;
     animation:none;
   }
   .sidebar { background:rgba(6,7,19,.82); }
@@ -1187,7 +1187,7 @@ body::after {
 }
 
 /* ======================================================================
-   V8 — VOID COSMIC GLASS SYSTEM
+   V8 — PLATINUM GLASS SYSTEM
    One visual language across the entire Creator Hub.
    ====================================================================== */
 :root {
@@ -1217,9 +1217,9 @@ body::before {
   background:
     linear-gradient(180deg,rgba(1,1,7,.24),rgba(2,2,10,.43) 52%,rgba(1,1,7,.72)),
     linear-gradient(90deg,rgba(4,2,15,.22),transparent 25%,transparent 75%,rgba(4,2,15,.22)),
-    url('/pulse-cosmic-bg.jpeg') center 43% / cover no-repeat;
+    url('/platinum-water-background.jpg') center 43% / cover no-repeat;
   filter:saturate(1.13) contrast(1.04);
-  animation:voidBackgroundFloat 28s ease-in-out infinite alternate;
+  animation:waterBackgroundFloat 28s ease-in-out infinite alternate;
 }
 body::after {
   background:
@@ -1227,10 +1227,10 @@ body::after {
     radial-gradient(ellipse at 83% 26%,rgba(174,45,255,.15),transparent 29%),
     radial-gradient(ellipse at 55% 80%,rgba(48,92,255,.12),transparent 35%),
     linear-gradient(180deg,transparent 35%,rgba(2,2,10,.14));
-  animation:voidAurora 16s ease-in-out infinite alternate;
+  animation:waterAurora 16s ease-in-out infinite alternate;
 }
-@keyframes voidBackgroundFloat { from{transform:scale(1.05) translate3d(0,0,0)} to{transform:scale(1.09) translate3d(-.8%,-.65%,0)} }
-@keyframes voidAurora { from{opacity:.68;filter:hue-rotate(-4deg)} to{opacity:1;filter:hue-rotate(8deg)} }
+@keyframes waterBackgroundFloat { from{transform:scale(1.05) translate3d(0,0,0)} to{transform:scale(1.09) translate3d(-.8%,-.65%,0)} }
+@keyframes waterAurora { from{opacity:.68;filter:hue-rotate(-4deg)} to{opacity:1;filter:hue-rotate(8deg)} }
 
 /* consistent cosmic glass */
 .panel,
@@ -1386,7 +1386,7 @@ body::after {
   background:
     linear-gradient(180deg,rgba(5,4,17,.03),rgba(5,4,17,.82)),
     linear-gradient(120deg,rgba(122,40,255,.05),transparent 60%),
-    url('/platinum-pulse-void-logo.jpeg') center 26%/cover;
+    url('/platinum-logo.jpg') center 26%/cover;
   opacity:.62;
 }
 
@@ -1469,7 +1469,7 @@ body::after {
   opacity:.91;
   background:
     linear-gradient(90deg,rgba(8,5,25,.92) 18%,rgba(8,5,25,.52) 63%,rgba(5,4,17,.20)),
-    url('/pulse-cosmic-bg.jpeg') right center/cover;
+    url('/platinum-water-background.jpg') right center/cover;
 }
 .campaign-badge {
   border-color:rgba(209,139,255,.25);
@@ -1542,8 +1542,8 @@ body::after {
 .login-art h1 span { background:linear-gradient(100deg,#e6c9ff,#ae65ff 50%,#778cff);background-clip:text; }
 
 /* polished animated edge on major surfaces */
-@keyframes voidBorderPulse { 0%,100%{box-shadow:0 24px 70px rgba(0,0,0,.30),inset 0 1px rgba(255,255,255,.08)} 50%{box-shadow:0 26px 76px rgba(0,0,0,.34),0 0 28px rgba(125,45,255,.045),inset 0 1px rgba(255,255,255,.10)} }
-.dashboard-dropdown[open],.incentive-hero,.campaign-hero { animation:voidBorderPulse 6s ease-in-out infinite; }
+@keyframes platinumBorderPulse { 0%,100%{box-shadow:0 24px 70px rgba(0,0,0,.30),inset 0 1px rgba(255,255,255,.08)} 50%{box-shadow:0 26px 76px rgba(0,0,0,.34),0 0 28px rgba(125,45,255,.045),inset 0 1px rgba(255,255,255,.10)} }
+.dashboard-dropdown[open],.incentive-hero,.campaign-hero { animation:platinumBorderPulse 6s ease-in-out infinite; }
 
 /* mobile keeps the depth without becoming busy */
 @media (max-width:760px) {
@@ -1551,7 +1551,7 @@ body::after {
     inset:-3%;
     background:
       linear-gradient(180deg,rgba(1,1,8,.38),rgba(2,2,10,.64)),
-      url('/pulse-cosmic-bg.jpeg') center top / cover no-repeat;
+      url('/platinum-water-background.jpg') center top / cover no-repeat;
     animation:none;
   }
   .content { padding-top:25px; }
@@ -1566,7 +1566,7 @@ body::after {
 
 /* ======================================================================
    V9 — PLATINUM MIDNIGHT BLUE SYSTEM
-   Dark blue + black glass UI with restrained VOID purple accents.
+   Dark blue + black glass UI with restrained cyan accents.
    ====================================================================== */
 :root {
   --ink:#01050b;
@@ -1588,7 +1588,7 @@ body::before{
   background:
     linear-gradient(180deg,rgba(1,5,12,.42),rgba(2,7,17,.62) 52%,rgba(0,3,9,.86)),
     linear-gradient(90deg,rgba(0,12,28,.38),transparent 27%,transparent 73%,rgba(0,11,29,.38)),
-    url('/pulse-cosmic-bg.jpeg') center 43%/cover no-repeat;
+    url('/platinum-water-background.jpg') center 43%/cover no-repeat;
   filter:saturate(.9) hue-rotate(12deg) brightness(.78) contrast(1.08);
 }
 body::after{
@@ -1634,7 +1634,7 @@ body::after{
 .period-pill,.connection-pill,.tier-pill{background:linear-gradient(145deg,rgba(10,29,53,.65),rgba(4,12,25,.52));border-color:rgba(85,157,240,.18);color:#aab8ca;}
 .stat-icon{background:linear-gradient(145deg,rgba(40,124,255,.18),rgba(35,103,194,.10))!important;border-color:rgba(86,160,255,.20)!important;box-shadow:inset 0 1px rgba(255,255,255,.06),0 12px 30px rgba(15,81,168,.13)!important;}
 .stat-card.violet{color:#79a9ff!important;}
-.focus-card::before{background:linear-gradient(180deg,rgba(2,7,17,.04),rgba(1,7,16,.88)),linear-gradient(120deg,rgba(20,107,255,.05),transparent 60%),url('/platinum-pulse-void-logo.jpeg') center 26%/cover;}
+.focus-card::before{background:linear-gradient(180deg,rgba(2,7,17,.04),rgba(1,7,16,.88)),linear-gradient(120deg,rgba(20,107,255,.05),transparent 60%),url('/platinum-logo.jpg') center 26%/cover;}
 .dashboard-dropdown-summary{background:linear-gradient(90deg,rgba(26,105,230,.06),transparent 57%);}
 .dashboard-dropdown-summary:hover{background:linear-gradient(90deg,rgba(38,132,255,.11),rgba(36,112,210,.035));}
 .dropdown-summary-icon{border-color:rgba(88,161,255,.22)!important;background:linear-gradient(145deg,rgba(30,117,255,.18),rgba(25,84,180,.10))!important;color:#6bb7ff!important;box-shadow:0 10px 30px rgba(18,81,171,.16),inset 0 1px rgba(255,255,255,.07)!important;}
@@ -1651,7 +1651,7 @@ body::after{
 .incentive-hero::after{background:#2f8cff!important;opacity:.18!important;}
 .incentive-icon{color:#70b7ff!important;background:linear-gradient(145deg,rgba(33,119,255,.18),rgba(27,81,169,.10))!important;border-color:rgba(81,158,255,.21)!important;box-shadow:0 10px 30px rgba(17,79,165,.13),inset 0 1px rgba(255,255,255,.06)!important;}
 .formula span,.formula strong{background:rgba(3,15,31,.58)!important;border-color:rgba(79,151,237,.15)!important;}.formula strong{background:linear-gradient(115deg,rgba(27,111,255,.25),rgba(22,80,166,.16))!important;}
-.campaign-hero::before{background:linear-gradient(90deg,rgba(2,11,25,.94) 18%,rgba(2,12,27,.62) 63%,rgba(2,8,18,.22)),url('/pulse-cosmic-bg.jpeg') right center/cover;filter:hue-rotate(12deg) saturate(.8);}
+.campaign-hero::before{background:linear-gradient(90deg,rgba(2,11,25,.94) 18%,rgba(2,12,27,.62) 63%,rgba(2,8,18,.22)),url('/platinum-water-background.jpg') right center/cover;filter:hue-rotate(12deg) saturate(.8);}
 .campaign-badge{border-color:rgba(87,163,255,.23);color:#a9d3ff;background:rgba(22,99,210,.12);}
 .campaign-copy a,.primary-button{border-color:rgba(95,177,255,.29);background:linear-gradient(115deg,#164fbf,#267fe8 52%,#22a9df);box-shadow:0 18px 46px rgba(15,92,192,.30),inset 0 1px rgba(255,255,255,.15);}
 .primary-button:hover{box-shadow:0 21px 53px rgba(17,98,204,.38),0 0 34px rgba(29,132,255,.10),inset 0 1px rgba(255,255,255,.18);}
@@ -1663,8 +1663,8 @@ body::after{
 .modal{border-color:rgba(85,159,245,.20);background:linear-gradient(155deg,rgba(7,29,55,.94),rgba(2,9,21,.96));box-shadow:0 45px 110px rgba(0,0,0,.62),0 0 52px rgba(25,118,255,.07),inset 0 1px rgba(255,255,255,.07);}.overlay{background:rgba(0,4,10,.78);}
 .battle-poster-canvas{border-color:rgba(86,166,255,.27)!important;box-shadow:0 34px 95px rgba(0,0,0,.55),0 0 43px rgba(32,125,255,.09),0 0 0 6px rgba(31,109,223,.024)!important;}
 .login-panel{background:rgba(1,7,16,.52);}.login-card{border-color:rgba(79,153,240,.18);background:linear-gradient(145deg,rgba(7,27,51,.69),rgba(2,9,21,.54));box-shadow:0 35px 95px rgba(0,0,0,.40),0 0 45px rgba(25,116,255,.07),inset 0 1px rgba(255,255,255,.07);}.login-logo{box-shadow:0 0 0 6px rgba(29,118,255,.045),0 0 58px rgba(30,126,255,.28);}.login-art h1 span{background:linear-gradient(100deg,#dceeff,#72baff 50%,#45d3ff);background-clip:text;}
-@keyframes voidBorderPulse{0%,100%{box-shadow:0 24px 70px rgba(0,0,0,.34),inset 0 1px rgba(255,255,255,.07)}50%{box-shadow:0 26px 76px rgba(0,0,0,.38),0 0 27px rgba(29,126,255,.04),inset 0 1px rgba(255,255,255,.09)}}
-@media(max-width:760px){body::before{background:linear-gradient(180deg,rgba(0,5,12,.55),rgba(0,5,13,.78)),url('/pulse-cosmic-bg.jpeg') center top/cover no-repeat;filter:hue-rotate(12deg) saturate(.82) brightness(.72);}.sidebar{background:rgba(2,9,20,.94);}}
+@keyframes platinumBorderPulse{0%,100%{box-shadow:0 24px 70px rgba(0,0,0,.34),inset 0 1px rgba(255,255,255,.07)}50%{box-shadow:0 26px 76px rgba(0,0,0,.38),0 0 27px rgba(29,126,255,.04),inset 0 1px rgba(255,255,255,.09)}}
+@media(max-width:760px){body::before{background:linear-gradient(180deg,rgba(0,5,12,.55),rgba(0,5,13,.78)),url('/platinum-water-background.jpg') center top/cover no-repeat;filter:hue-rotate(12deg) saturate(.82) brightness(.72);}.sidebar{background:rgba(2,9,20,.94);}}
 
 /* V10 — competitive leaderboard */
 .leaderboard-heading{margin-bottom:20px}.leaderboard-heading h1{font-size:clamp(38px,5vw,68px);letter-spacing:-.045em}.leaderboard-heading .eyebrow{letter-spacing:.22em}
@@ -1739,7 +1739,7 @@ body::before{
   background:
     linear-gradient(180deg,rgba(1,5,13,.72),rgba(1,5,13,.83)),
     radial-gradient(circle at 50% 74%,rgba(35,112,255,.10),transparent 32%),
-    url('/app-cosmic-blue-bg.jpeg') center center/cover no-repeat!important;
+    url('/platinum-water-background.jpg') center center/cover no-repeat!important;
   opacity:1!important;
 }
 body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;background:radial-gradient(circle at 50% 18%,transparent 0 16%,rgba(0,4,13,.28) 68%,rgba(0,3,10,.72) 100%);}
@@ -1806,7 +1806,7 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;bac
 .incentive-rule-strip{margin-top:16px;padding:18px 21px;display:flex;align-items:center;gap:14px;border-radius:18px!important;color:#65c6ff}.incentive-rule-strip div{display:grid;gap:3px}.incentive-rule-strip strong{color:#e7f4ff;font-size:12px}.incentive-rule-strip span{color:#758ba8;font-size:10px}
 
 @media(max-width:900px){.incentive-push-hero{grid-template-columns:1fr}.incentive-ladder-head{align-items:start;flex-direction:column;gap:5px}.incentive-ladder-head>p{text-align:left}.incentive-page-heading{align-items:flex-start!important}.incentive-current-badge{margin-top:4px}.stat-card{min-height:128px!important}}
-@media(max-width:600px){body::before{background:linear-gradient(180deg,rgba(1,5,13,.72),rgba(1,5,13,.88)),url('/app-cosmic-blue-bg.jpeg') center/cover no-repeat!important}.incentive-push-hero{padding:22px 17px!important;border-radius:21px!important}.incentive-push-copy h2{font-size:31px}.incentive-goal-row{grid-template-columns:40px 1fr;padding:12px}.incentive-goal-icon{width:40px;height:40px}.tier-requirements{gap:5px}.incentive-tier-card{min-height:285px}.stats-grid{gap:10px!important}.stat-card{border-radius:19px!important;padding:17px!important}}
+@media(max-width:600px){body::before{background:linear-gradient(180deg,rgba(1,5,13,.72),rgba(1,5,13,.88)),url('/platinum-water-background.jpg') center/cover no-repeat!important}.incentive-push-hero{padding:22px 17px!important;border-radius:21px!important}.incentive-push-copy h2{font-size:31px}.incentive-goal-row{grid-template-columns:40px 1fr;padding:12px}.incentive-goal-icon{width:40px;height:40px}.tier-requirements{gap:5px}.incentive-tier-card{min-height:285px}.stats-grid{gap:10px!important}.stat-card{border-radius:19px!important;padding:17px!important}}
 
 /* ===== v14 arranged battle compact-card fix ===== */
 .battle-upcoming-grid{
@@ -2013,7 +2013,7 @@ html,body{max-width:100%;overflow-x:hidden}
 .login-panel{width:100%!important;max-width:100%!important;box-sizing:border-box!important}
 .login-card{width:min(420px,100%)!important;max-width:420px!important;box-sizing:border-box!important;overflow-wrap:anywhere}
 .login-card input,.login-card button{max-width:100%!important;box-sizing:border-box!important}
-@media(max-width:900px){.login-page{display:block!important;padding:16px!important;min-height:100dvh!important;background:linear-gradient(rgba(2,8,18,.55),rgba(2,8,18,.92)),url('/pulse-cosmic-bg.jpeg') center/cover fixed!important}.login-art{display:none!important}.login-panel{min-height:calc(100dvh - 32px)!important;padding:20px!important;border-radius:24px!important;display:grid!important;place-items:center!important}.login-card{margin:0 auto!important}}
+@media(max-width:900px){.login-page{display:block!important;padding:16px!important;min-height:100dvh!important;background:linear-gradient(rgba(2,8,18,.55),rgba(2,8,18,.92)),url('/platinum-water-background.jpg') center/cover fixed!important}.login-art{display:none!important}.login-panel{min-height:calc(100dvh - 32px)!important;padding:20px!important;border-radius:24px!important;display:grid!important;place-items:center!important}.login-card{margin:0 auto!important}}
 /* V31 Quick Manager, private support, manager accounts and notifications */
 .manager-help-grid,.staff-inbox{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(280px,.65fr);gap:18px}.quick-chat-panel,.support-thread{overflow:hidden}.quick-chat-head{display:flex;gap:12px;align-items:center;margin-bottom:16px}.quick-chat-head>svg{width:38px;height:38px;padding:9px;border-radius:12px;background:rgba(86,132,255,.12)}.quick-chat-head h2{margin:0}.quick-chat-head p{margin:3px 0 0;color:var(--muted,#8e9ab5)}.quick-chat-messages,.support-messages{min-height:280px;max-height:470px;overflow:auto;display:flex;flex-direction:column;gap:10px;padding:8px 2px}.quick-msg,.support-bubble{max-width:82%;padding:12px 14px;border-radius:16px;background:rgba(255,255,255,.055);display:flex;flex-direction:column;gap:5px;line-height:1.45}.quick-msg.me,.support-bubble.mine,.support-bubble.creator{align-self:flex-end;background:rgba(64,113,255,.16)}.quick-msg.bot,.support-bubble.staff{align-self:flex-start}.quick-msg b,.support-bubble b{font-size:12px}.support-bubble small{opacity:.55;font-size:10px}.quick-chat-input{display:flex;gap:8px;margin-top:14px}.quick-chat-input input,.manager-create input{flex:1;min-width:0}.quick-chat-input .primary-button{padding-inline:15px}.escalate-row{padding-top:10px}.faq-search{margin:12px 0}.faq-shortcuts{display:flex;flex-direction:column;gap:7px}.faq-shortcuts button,.staff-thread-list>button{display:flex;align-items:center;justify-content:space-between;width:100%;padding:12px;border:1px solid rgba(255,255,255,.08);border-radius:12px;background:rgba(255,255,255,.03);color:inherit;text-align:left}.staff-thread-list>button{justify-content:flex-start;gap:9px}.staff-thread-list>button.active{background:rgba(64,113,255,.15);border-color:rgba(94,137,255,.4)}.manager-admin-panel{margin-top:18px}.manager-create{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:10px}.manager-list{margin-top:15px;display:flex;flex-direction:column;gap:8px}.manager-list>div{display:flex;justify-content:space-between;align-items:center;padding:11px;border:1px solid rgba(255,255,255,.07);border-radius:12px}.manager-list span{display:flex;flex-direction:column}.manager-list small{opacity:.6}.notification-wrap{position:relative;margin-left:auto}.notification-button{position:relative;border:0;background:transparent;color:inherit;padding:9px;display:grid;place-items:center}.notification-button span{position:absolute;right:1px;top:0;min-width:18px;height:18px;padding:0 4px;border-radius:99px;background:#e43d61;color:white;font-size:10px;display:grid;place-items:center}.notification-pop{position:absolute;right:0;top:48px;width:min(380px,calc(100vw - 24px));max-height:520px;overflow:auto;background:#0c1325;border:1px solid rgba(255,255,255,.12);box-shadow:0 18px 55px rgba(0,0,0,.45);border-radius:16px;padding:10px;z-index:100}.notification-head{display:flex;justify-content:space-between;align-items:center;padding:7px}.notification-head button{border:0;background:transparent;color:inherit;opacity:.7;display:flex;gap:5px}.notification-item{width:100%;display:flex;flex-direction:column;gap:4px;text-align:left;padding:11px;border:0;border-radius:11px;background:transparent;color:inherit}.notification-item.unread{background:rgba(64,113,255,.12)}.notification-item span{font-size:12px;opacity:.8}.notification-item small{font-size:10px;opacity:.5}
 @media(max-width:850px){.manager-help-grid,.staff-inbox{grid-template-columns:1fr}.manager-create{grid-template-columns:1fr}.notification-pop{position:fixed;right:12px;top:62px}.quick-msg,.support-bubble{max-width:92%}}

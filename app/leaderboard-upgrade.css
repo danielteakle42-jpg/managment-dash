@@ -362,10 +362,6 @@
   border-color: rgba(107,151,255,.11);
   color: #91a9d8;
 }
-.leader-agency-pill.void {
-  border-color: rgba(151,113,255,.12);
-  color: #a89ad2;
-}
 
 .competitive-table .table-row[hidden] { display: none !important; }
 

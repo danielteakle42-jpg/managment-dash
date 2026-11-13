@@ -1,20 +1,20 @@
 {
-  "name": "Platinum Pulse \u00d7 VOID Creator Hub",
+  "name": "Platinum Pulse Creator Hub",
   "short_name": "Creator Hub",
-  "description": "Platinum Pulse \u00d7 VOID creator dashboard",
+  "description": "Platinum Pulse creator dashboard",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#03040b",
-  "theme_color": "#090b1d",
+  "background_color": "#031d29",
+  "theme_color": "#043544",
   "icons": [
     {
-      "src": "/app-icon.png",
+      "src": "/app-icon-platinum.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/apple-touch-icon.png",
+      "src": "/apple-touch-icon-platinum.png",
       "sizes": "180x180",
       "type": "image/png"
     }

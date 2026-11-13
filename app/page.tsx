@@ -32,7 +32,7 @@ import {
 import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import * as XLSX from "xlsx";
 import ArrangedBattles, { fetchUpcomingBattle, UpcomingBattleCard, type UpcomingBattle } from "./arranged-battles";
-import { avatarFor, cleanUsername, type CreatorMetric, type Profile } from "./shared";
+import { agencyLabel, avatarFor, cleanUsername, type CreatorMetric, type Profile } from "./shared";
 import { supabase, supabaseConfigured } from "./supabase";
 import { QuickManager, StaffInbox } from "./quick-manager";
 import ManagerAdmin from "./manager-admin";
@@ -187,7 +187,7 @@ const DEMO_CREATORS: CreatorMetric[] = [
     valid_live_days: 18,
     live_streams: 28,
     matches: 65,
-    group_name: "VOID",
+    group_name: "Platinum Pulse",
   },
   {
     username: "violetlive",
@@ -209,7 +209,7 @@ const DEMO_CREATORS: CreatorMetric[] = [
     valid_live_days: 12,
     live_streams: 22,
     matches: 54,
-    group_name: "VOID",
+    group_name: "Platinum Pulse",
   },
   {
     username: "pulsevision",
@@ -335,8 +335,8 @@ function Login({
   const [credential,setCredential]=useState("");
   const submit=(event:FormEvent)=>{event.preventDefault();onAccessLogin(credential.trim());};
   return <main className="login-page"><div className="ambient ambient-one"/><div className="ambient ambient-two"/>
-    <section className="login-art" aria-label="Platinum Pulse VOID"><div className="login-art-copy"><span className="eyebrow"><Zap size={14}/> Creator performance hub</span><h1>Own your hours.<br/><span>Build your pulse.</span></h1><p>One focused place for your LIVE progress, rankings, incentives and active TikTok campaigns.</p><div className="trust-row"><span><ShieldCheck size={16}/> Private creator access</span><span><Sparkles size={16}/> Live performance insights</span></div></div></section>
-    <section className="login-panel"><form className="login-card" onSubmit={submit}><img src="/platinum-pulse-void-logo.jpeg" alt="Platinum Pulse VOID Agency" className="login-logo"/><div className="login-heading"><p className="eyebrow">Welcome back</p><h2>Login</h2><p>Enter your TikTok username or your private access code.</p></div>
+    <section className="login-art" aria-label="Platinum Pulse Network"><div className="login-art-copy"><span className="eyebrow"><Zap size={14}/> Creator performance hub</span><h1>Own your hours.<br/><span>Build your pulse.</span></h1><p>One focused place for your LIVE progress, rankings, incentives and active TikTok campaigns.</p><div className="trust-row"><span><ShieldCheck size={16}/> Private creator access</span><span><Sparkles size={16}/> Live performance insights</span></div></div></section>
+    <section className="login-panel"><form className="login-card" onSubmit={submit}><img src="/platinum-logo.jpg" alt="Platinum Pulse Network" className="login-logo"/><div className="login-heading"><p className="eyebrow">Welcome back</p><h2>Login</h2><p>Enter your TikTok username or your private access code.</p></div>
       <label>TikTok username / access code<div className="input-wrap"><CircleUserRound size={18}/><input value={credential} onChange={e=>setCredential(e.target.value)} autoComplete="off" placeholder="TikTok username or access code" required/></div></label>
       {error&&<p className="form-error">{error}</p>}<button className="primary-button" disabled={busy}>{busy?'Signing in…':'Access dashboard'}<ChevronRight size={18}/></button>
       <p className="login-help">Creator access is matched to uploaded TikTok data. Management access stays separate from creator performance records.</p>
@@ -375,8 +375,8 @@ function AppShell({
     <div className="app-shell">
       <aside className={`sidebar ${mobileOpen ? "is-open" : ""}`}>
         <div className="brand-lockup">
-          <img src="/platinum-pulse-void-logo.jpeg" alt="" />
-          <div><strong>PLATINUM PULSE</strong><span>VOID CREATOR HUB</span></div>
+          <img src="/platinum-logo.jpg" alt="" />
+          <div><strong>PLATINUM PULSE</strong><span>CREATOR HUB</span></div>
           <button className="close-menu" onClick={() => setMobileOpen(false)} aria-label="Close menu"><X /></button>
         </div>
         <nav>
@@ -389,7 +389,7 @@ function AppShell({
         <div className="sidebar-foot">
           <div className="profile-mini">
             <Avatar record={ownRecord || { username: profile.username }} />
-            <div><strong>{profile.role === "admin" ? "Owner" : profile.role === "manager" ? (profile.display_name || `@${profile.username}`) : `@${profile.username}`}</strong><small>{profile.role === "admin" ? "Agency owner" : profile.role === "manager" ? "Manager" : ownRecord?.group_name || "Creator"}</small></div>
+            <div><strong>{profile.role === "admin" ? "Owner" : profile.role === "manager" ? (profile.display_name || `@${profile.username}`) : `@${profile.username}`}</strong><small>{profile.role === "admin" ? "Agency owner" : profile.role === "manager" ? "Manager" : agencyLabel(ownRecord?.group_name, "Creator")}</small></div>
           </div>
           <button className="logout" onClick={onLogout}><LogOut size={18} /> Sign out</button>
         </div>
@@ -586,7 +586,7 @@ function Leaderboard({ records, currentUsername, availableMonths, selectedMonth,
               <span className="rank-badge">#{place}</span>
               <div className="creator-avatar"><Avatar record={record} /></div>
               <span className="podium-title">{place === 1 ? "CURRENT LEADER" : place === 2 ? "CHASING #1" : "TOP 3"}</span>
-              <strong>@{record.username}</strong><small>{record.group_name || "Creator"} · {tierLabel(record)}</small><b>{displayMetric(record)}</b><em>{metricLabel}</em>
+              <strong>@{record.username}</strong><small>{agencyLabel(record.group_name, "Creator")} · {tierLabel(record)}</small><b>{displayMetric(record)}</b><em>{metricLabel}</em>
               {ahead ? <span className="overtake-gap">↑ {gapText(gap)}</span> : <span className="overtake-gap leader-gap">Defend the crown</span>}
             </article>
           );
@@ -604,7 +604,7 @@ function Leaderboard({ records, currentUsername, availableMonths, selectedMonth,
             return (
               <div className={`table-row ${record.username === currentUsername ? "is-you" : ""} ${index < 3 ? "top-three-row" : ""}`} key={record.username}>
                 <span className="rank-number">#{index + 1}</span>
-                <span className="creator-cell"><i><Avatar record={record} /></i><span><b>@{record.username}</b><small>{record.username === currentUsername ? `You · ${tierLabel(record)}` : `${record.group_name || "Creator"} · ${tierLabel(record)}`}{ahead ? ` · ${gapText(gap)}` : " · Current leader"}</small></span></span>
+                <span className="creator-cell"><i><Avatar record={record} /></i><span><b>@{record.username}</b><small>{record.username === currentUsername ? `You · ${tierLabel(record)}` : `${agencyLabel(record.group_name, "Creator")} · ${tierLabel(record)}`}{ahead ? ` · ${gapText(gap)}` : " · Current leader"}</small></span></span>
                 <span><b>{record.live_duration}</b><small>LIVE time</small></span>
                 <span><b>{record.diamonds.toLocaleString()}</b><small>Diamonds</small></span>
                 <span><b>{record.valid_live_days}</b><small>Valid days</small></span>
@@ -909,14 +909,14 @@ function Admin({
       "Valid go LIVE days": item.valid_live_days,
       "LIVE streams": item.live_streams || 0,
       Matches: item.matches || 0,
-      Group: item.group_name || "",
+      Group: agencyLabel(item.group_name, ""),
       "Creator Network manager": item.manager || "",
       "Profile picture URL": item.avatar_url || "",
     }));
     const sheet = XLSX.utils.json_to_sheet(rows);
     const book = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(book, sheet, "Creator data");
-    XLSX.writeFile(book, `platinum-pulse-void-${new Date().toISOString().slice(0, 10)}.xlsx`);
+    XLSX.writeFile(book, `platinum-pulse-${new Date().toISOString().slice(0, 10)}.xlsx`);
   };
 
   const saveEdit = async (event: FormEvent) => {
@@ -965,7 +965,7 @@ function Admin({
         <div className="admin-list">
           <div className="admin-list-head"><span>Creator</span><span>LIVE time</span><span>Diamonds</span><span>Valid days</span><span /></div>
           {filtered.map((item) => (
-            <div className="admin-list-row" key={item.username}><span className="creator-cell"><i><Avatar record={item} /></i><span><b>@{item.username}</b><small>{item.group_name || "No group"}</small></span></span><span>{item.live_duration}</span><span>{item.diamonds.toLocaleString()}</span><span>{item.valid_live_days}</span><button className="icon-button" onClick={() => setEditing({ ...item })} aria-label={`Edit ${item.username}`}><Pencil /></button></div>
+            <div className="admin-list-row" key={item.username}><span className="creator-cell"><i><Avatar record={item} /></i><span><b>@{item.username}</b><small>{agencyLabel(item.group_name, "No group")}</small></span></span><span>{item.live_duration}</span><span>{item.diamonds.toLocaleString()}</span><span>{item.valid_live_days}</span><button className="icon-button" onClick={() => setEditing({ ...item })} aria-label={`Edit ${item.username}`}><Pencil /></button></div>
           ))}
         </div>
       </section>

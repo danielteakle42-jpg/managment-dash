@@ -1,0 +1,89 @@
+/* Shared Platinum branding for login, creator, manager and owner views. */
+:root {
+  --ink: #031d29;
+  --panel: rgba(3, 27, 40, .85);
+  --panel-strong: rgba(3, 25, 38, .96);
+  --line: rgba(119, 222, 247, .20);
+  --muted: #a7c8d4;
+  --violet: #59d4f5;
+  --blue: #269fdf;
+  --cyan: #91edff;
+  --pp-bg: #031d29;
+  --pp-surface: rgba(3, 27, 40, .85);
+  --pp-surface-2: rgba(5, 35, 49, .94);
+  --pp-line: rgba(119, 222, 247, .16);
+  --pp-line-strong: rgba(119, 222, 247, .34);
+  --pp-muted: #a7c8d4;
+  --pp-purple: #59d4f5;
+  --pp-blue: #269fdf;
+}
+
+body { isolation: isolate; }
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(180deg, rgba(2, 24, 36, .35), rgba(2, 24, 36, .64)),
+    url('/platinum-water-background.jpg') center / cover no-repeat !important;
+  opacity: 1 !important;
+  filter: none !important;
+  transform: none !important;
+  animation: none !important;
+}
+body::after { display: none !important; }
+.app-shell, .content { background: transparent !important; }
+.sidebar { background: rgba(2, 23, 35, .92) !important; }
+.brand-lockup img {
+  width: 54px !important;
+  height: 64px !important;
+  flex-shrink: 0;
+  object-fit: contain;
+  border-radius: 8px;
+}
+.brand-lockup span { color: #a7c8d4 !important; }
+.login-page { background: transparent !important; }
+.login-art { background: transparent !important; }
+.login-art::before { display: none !important; }
+.login-art::after {
+  background: linear-gradient(180deg, transparent 25%, rgba(2, 24, 36, .68)) !important;
+}
+.login-panel {
+  background: rgba(2, 25, 37, .62) !important;
+  border-color: var(--line) !important;
+}
+.login-card {
+  background: rgba(3, 28, 41, .82) !important;
+  border-color: var(--line) !important;
+}
+.login-logo {
+  width: 160px !important;
+  height: auto !important;
+  aspect-ratio: 1183 / 1329;
+  object-fit: contain;
+  border-radius: 12px !important;
+  border-color: rgba(119, 222, 247, .28) !important;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, .3) !important;
+  animation: none !important;
+}
+.login-art h1 span {
+  background-image: linear-gradient(100deg, #e6faff, #68dcff, #c3f7ff) !important;
+}
+.eyebrow, .sidebar nav button.active svg { color: #91e7ff !important; }
+.sidebar nav button.active {
+  background: rgba(67, 191, 229, .14) !important;
+  border-color: rgba(119, 222, 247, .22) !important;
+}
+.primary-button {
+  color: #012131 !important;
+  background: linear-gradient(115deg, #83e5fa, #43bce9) !important;
+  box-shadow: 0 8px 24px rgba(0, 135, 180, .16) !important;
+}
+.input-wrap:focus-within {
+  border-color: #68dcff !important;
+  box-shadow: 0 0 0 3px rgba(67, 191, 229, .15) !important;
+}
+@media (max-width: 760px) {
+  .login-panel { padding: 24px 18px !important; }
+  .login-logo { width: 130px !important; }
+}

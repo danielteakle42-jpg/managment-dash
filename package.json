@@ -1,5 +1,5 @@
 {
-  "name": "platinum-pulse-void-hub",
+  "name": "platinum-pulse-hub",
   "version": "0.1.0",
   "private": true,
   "engines": {
@@ -30,5 +30,5 @@
     "typescript": "5.9.3"
   },
   "type": "module",
-  "displayName": "Platinum Pulse Void Creator Hub"
+  "displayName": "Platinum Pulse Creator Hub"
 }

@@ -24,7 +24,7 @@ body::before {
     radial-gradient(900px 520px at 84% -12%, rgba(93, 91, 255, .12), transparent 58%),
     radial-gradient(700px 420px at 18% 12%, rgba(42, 112, 255, .06), transparent 62%),
     linear-gradient(180deg, rgba(5,7,13,.88), rgba(5,7,13,.97)),
-    url('/pulse-cosmic-bg.jpeg') center top / cover fixed !important;
+    url('/platinum-water-background.jpg') center top / cover fixed !important;
   filter: saturate(.70) brightness(.72) !important;
   opacity: .96;
 }
@@ -390,7 +390,7 @@ body::before {
 .campaign-hero::before {
   background:
     linear-gradient(90deg, rgba(7,9,16,.94) 24%, rgba(7,9,16,.70)),
-    url('/pulse-cosmic-bg.jpeg') right center / cover !important;
+    url('/platinum-water-background.jpg') right center / cover !important;
   opacity: .60 !important;
   filter: saturate(.78) brightness(.76);
 }
@@ -460,7 +460,7 @@ body::before {
     background:
       radial-gradient(560px 320px at 100% -4%, rgba(112,92,255,.12), transparent 60%),
       linear-gradient(180deg, rgba(5,7,13,.90), rgba(5,7,13,.98)),
-      url('/pulse-cosmic-bg.jpeg') center top / cover no-repeat !important;
+      url('/platinum-water-background.jpg') center top / cover no-repeat !important;
     filter: saturate(.66) brightness(.66) !important;
   }
 
