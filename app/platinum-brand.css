@@ -87,3 +87,214 @@ body::after { display: none !important; }
   .login-panel { padding: 24px 18px !important; }
   .login-logo { width: 130px !important; }
 }
+
+/* One glass surface system, including the embedded assistant workspace. */
+:root {
+  --pp-surface: rgba(5, 21, 34, .68);
+  --pp-surface-2: rgba(6, 25, 40, .86);
+  --pp-line: rgba(187, 227, 241, .16);
+  --pp-muted: #adc5d0;
+  --platinum-glass: linear-gradient(145deg, rgba(29, 62, 79, .64), rgba(4, 19, 33, .80));
+  --platinum-shadow: 0 18px 48px rgba(0, 12, 24, .22), inset 0 1px 0 rgba(224, 248, 255, .10);
+}
+body .app-shell :is(.panel, .stat-card, .podium-card, .incentive-card, .daily-card, .battle-match-card, .leaderboard-filter-bar),
+.platinum-assistant .card {
+  background: var(--platinum-glass) !important;
+  border: 1px solid var(--pp-line) !important;
+  border-radius: 22px !important;
+  box-shadow: var(--platinum-shadow) !important;
+  backdrop-filter: blur(24px) saturate(120%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(120%) !important;
+}
+body .app-shell .panel::before { opacity: .06 !important; }
+body .app-shell .admin-table-panel {
+  padding: 8px !important;
+  overflow: hidden;
+}
+.admin-table-panel .admin-table-top {
+  padding: 24px 22px !important;
+  flex-wrap: wrap;
+  border-bottom: 1px solid rgba(202, 235, 247, .09);
+}
+.admin-table-panel .admin-table-top h2 {
+  font-size: 22px !important;
+  font-weight: 650;
+  letter-spacing: -.035em;
+  color: #f1faff;
+}
+.admin-table-panel .admin-table-top p {
+  margin-top: 7px;
+  color: #adc5d0 !important;
+  font-size: 12px !important;
+}
+.admin-table-panel .search-box {
+  min-height: 44px;
+  width: min(320px, 100%);
+  padding: 0 14px;
+  background: rgba(1, 16, 29, .38) !important;
+  border: 1px solid rgba(183, 222, 240, .18) !important;
+  border-radius: 12px !important;
+}
+.admin-table-panel .search-box input {
+  width: 100%;
+  background: transparent !important;
+  color: #eaf8ff !important;
+  font-size: 13px !important;
+}
+.admin-table-panel .search-box:focus-within {
+  border-color: #82d9f3 !important;
+  box-shadow: 0 0 0 3px rgba(91, 201, 236, .10);
+}
+.admin-table-panel .admin-list { padding: 0 10px 10px; }
+.admin-table-panel .admin-list-head {
+  height: 48px;
+  padding-inline: 14px;
+  color: #acc9d8 !important;
+  font-size: 10px !important;
+  letter-spacing: .13em;
+}
+.admin-table-panel .admin-list-row {
+  min-height: 72px;
+  padding: 10px 14px;
+  color: #e2eff7 !important;
+  font-size: 13px !important;
+  font-variant-numeric: tabular-nums;
+  border-top: 1px solid rgba(202, 235, 247, .08) !important;
+  border-radius: 12px;
+  transition: background .16s ease;
+}
+.admin-table-panel .admin-list-row:nth-child(odd) { background: rgba(186, 229, 247, .025); }
+.admin-table-panel .admin-list-row:hover { background: rgba(115, 202, 233, .075); }
+.admin-table-panel .creator-cell { gap: 12px; }
+.admin-table-panel .creator-cell b { font-size: 13px !important; font-weight: 650; }
+.admin-table-panel .creator-cell small {
+  margin-top: 5px;
+  color: #a7bfcd !important;
+  font-size: 11px !important;
+}
+.admin-table-panel .creator-cell > i {
+  box-shadow: 0 0 0 2px rgba(217, 246, 255, .12);
+}
+.admin-table-panel .icon-button {
+  width: 36px;
+  height: 36px;
+  color: #bfe8f7;
+  background: rgba(188, 229, 248, .045);
+  border-color: rgba(188, 229, 248, .14);
+  border-radius: 11px;
+}
+.admin-table-panel .icon-button:hover {
+  color: #fff;
+  background: rgba(115, 202, 233, .14);
+  border-color: rgba(147, 224, 250, .4);
+}
+body.admin-panel-records-open .admin-actions {
+  padding: 14px 18px !important;
+  margin-bottom: 18px !important;
+  border-radius: 18px !important;
+}
+body.admin-panel-records-open .admin-actions :is(.primary-button, .secondary-button, .danger-button),
+.admin-quick-actions button, .admin-back-overview {
+  min-height: 40px !important;
+  border-radius: 11px !important;
+  font-size: 12px !important;
+  font-weight: 650 !important;
+}
+.admin-quick-actions button, .admin-back-overview {
+  background: rgba(8, 29, 44, .48) !important;
+  border-color: rgba(186, 226, 242, .18) !important;
+  color: #def4ff !important;
+  backdrop-filter: blur(14px);
+}
+.admin-overview-heading > div:first-child > p:last-child,
+.admin-overview-heading .eyebrow { color: #c0d9e3 !important; }
+
+/* Let the water continue behind the assistant instead of a black rectangle. */
+.platinum-assistant {
+  --line: rgba(187, 227, 241, .16);
+  --text: #eff9ff;
+  --muted: #adc5d0;
+  --accent: #83e5fa;
+  --accent2: #43bce9;
+  background: transparent !important;
+  font-family: var(--font-geist-sans), Arial, sans-serif !important;
+}
+.platinum-assistant .wrap { padding: 8px 0 32px; }
+.platinum-assistant .top {
+  padding: 12px 2px 24px;
+  margin-bottom: 0;
+}
+.platinum-assistant .brand h1 {
+  font-size: clamp(28px, 3vw, 38px);
+  font-weight: 650;
+  letter-spacing: -.045em;
+  margin-top: 10px;
+}
+.platinum-assistant .brand p { font-size: 14px; margin-top: 9px; }
+.platinum-assistant .eyebrow { color: #a1e8fa; letter-spacing: .17em; }
+.platinum-assistant .card { padding: 24px; }
+.platinum-assistant .grid { gap: 18px; }
+.platinum-assistant .card h3 { font-size: 15px; font-weight: 650; }
+.platinum-assistant .calmHero {
+  margin-bottom: 20px;
+  padding: 28px !important;
+  border-color: rgba(149, 223, 248, .26) !important;
+}
+.platinum-assistant .calmHero h2 { font-size: 26px; font-weight: 600; letter-spacing: -.035em; }
+.platinum-assistant .commandBar {
+  min-height: 56px;
+  margin-bottom: 20px;
+  background: rgba(3, 21, 36, .58);
+  border-color: var(--line);
+  border-radius: 16px;
+  backdrop-filter: blur(18px);
+}
+.platinum-assistant :is(.input, .textarea, .select, .task, .listRow, .note, .meeting, .simpleMenu, .workspace, .projectFolder) {
+  background: rgba(1, 16, 29, .32);
+  border-color: rgba(187, 227, 241, .13);
+  border-radius: 13px;
+}
+.platinum-assistant :is(.input, .textarea, .select):focus {
+  border-color: #82d9f3;
+  box-shadow: 0 0 0 3px rgba(91, 201, 236, .10);
+}
+.platinum-assistant .task, .platinum-assistant .listRow { padding: 16px; }
+.platinum-assistant .btn,
+.platinum-assistant .commandBar > button,
+.platinum-assistant .quickFab {
+  color: #032332;
+  background: linear-gradient(115deg, #83e5fa, #43bce9);
+  border-color: rgba(149, 223, 248, .4);
+  border-radius: 12px;
+  font-weight: 650;
+}
+.platinum-assistant :is(.btn.secondary, .iconBtn, .projectActions button, .miniButton) {
+  color: #def4ff;
+  background: rgba(184, 227, 247, .055);
+  border-color: var(--line);
+  border-radius: 12px;
+}
+.platinum-assistant .empty { border-color: rgba(187, 227, 241, .16); color: #adc5d0; }
+.platinum-assistant .nav {
+  background: rgba(3, 21, 36, .90);
+  border-color: var(--line);
+  box-shadow: 0 12px 36px rgba(0, 12, 24, .24);
+}
+.platinum-assistant .nav button.active { background: rgba(115, 202, 233, .14); color: #ddf7ff; }
+.platinum-assistant :is(.tag, .listIcon, .hubIcon, .workspaceIcon) {
+  background: rgba(115, 202, 233, .10);
+  color: #b4e8fa;
+}
+/* Enhancement elements must never linger on another view after navigation. */
+main.content:not(:has(.leaderboard-heading)) .leaderboard-filter-bar { display: none !important; }
+main.content:has(.platinum-assistant) > .leaderboard-filter-bar { display: none !important; }
+
+@media (max-width: 760px) {
+  .admin-table-panel .admin-table-top { padding: 18px 12px !important; }
+  .admin-table-panel .search-box { width: 100%; }
+  .admin-table-panel .admin-list { padding-inline: 0; }
+  .platinum-assistant .card { padding: 18px; }
+  .platinum-assistant .calmHero { padding: 22px 18px !important; }
+  .platinum-assistant .brief { align-items: flex-start; flex-direction: column; }
+  .platinum-assistant .brief .btn { width: 100%; }
+}
