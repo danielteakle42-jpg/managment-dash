@@ -723,9 +723,30 @@ function Admin({
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [message, setMessage] = useState("");
+  const [changingVisibility, setChangingVisibility] = useState(false);
   const [clearing, setClearing] = useState(false);
   const [query, setQuery] = useState("");
   const [editing, setEditing] = useState<CreatorMetric | null>(null);
+  async function toggleLeaderboard() {
+    if (!editing || !supabase || changingVisibility) return;
+    const hidden = !editing.leaderboard_hidden;
+    const username = editing.username;
+    if (hidden && !window.confirm(`Remove @${username} from the leaderboard for all months? You can restore them here later.`)) return;
+    setChangingVisibility(true);
+    try {
+      const { error } = await supabase.from("creator_metrics")
+        .update({ leaderboard_hidden: hidden }).eq("username", username).select("username").single();
+      if (error) throw error;
+      setEditing(current => current?.username === username ? { ...current, leaderboard_hidden: hidden } : current);
+      setMessage(`@${username} ${hidden ? "removed from" : "restored to"} the leaderboard.`);
+      await refresh();
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "Could not update the leaderboard. Please retry.");
+    } finally {
+      setChangingVisibility(false);
+    }
+  }
+
   const totals = records.reduce((acc, item) => ({ diamonds: acc.diamonds + item.diamonds, minutes: acc.minutes + item.live_minutes, days: acc.days + item.valid_live_days }), { diamonds: 0, minutes: 0, days: 0 });
   const filtered = records.filter((item) => item.username.toLowerCase().includes(query.toLowerCase()));
 
@@ -923,6 +944,7 @@ function Admin({
     event.preventDefault();
     if (!editing || !supabase) return setMessage("Connect Supabase to save global changes.");
     const payload = { ...editing, live_duration: minutesToDuration(editing.live_minutes) };
+    delete payload.leaderboard_hidden;
     const { error } = await supabase.from("creator_metrics").upsert(payload, { onConflict: "username" });
     if (error) return setMessage(error.message);
     setEditing(null);
@@ -957,7 +979,8 @@ function Admin({
           <label>LIVE minutes<input type="number" value={editing.live_minutes} onChange={(e) => setEditing({ ...editing, live_minutes: number(e.target.value) })} /></label>
           <label>Valid days<input type="number" value={editing.valid_live_days} onChange={(e) => setEditing({ ...editing, valid_live_days: number(e.target.value) })} /></label>
           <label>Profile picture URL<input type="url" value={editing.avatar_url || ""} onChange={(e) => setEditing({ ...editing, avatar_url: e.target.value })} placeholder="Optional override" /></label>
-          <button className="primary-button">Save update</button><button type="button" className="icon-button" onClick={() => setEditing(null)}><X /></button>
+          <button type="button" className={editing.leaderboard_hidden ? "secondary-button" : "danger-button"} disabled={changingVisibility} onClick={toggleLeaderboard}>{editing.leaderboard_hidden ? "Restore to leaderboard" : "Remove from leaderboard"}</button>
+          <button disabled={changingVisibility} className="primary-button">Save update</button><button type="button" className="icon-button" onClick={() => setEditing(null)}><X /></button>
         </form>
       )}
       <section className="panel table-panel admin-table-panel">
@@ -1170,7 +1193,7 @@ export default function Home() {
     <AppShell profile={profile} records={records} current={current} setCurrent={(view) => {setCurrent(view);const url=new URL(window.location.href);if(view==="assistant")url.searchParams.set("view","assistant");else {url.searchParams.delete("view");url.searchParams.delete("assistantTab");}window.history.replaceState({},"",url.pathname+url.search);}} onLogout={logout}>
       {current === "dashboard" && profile.role !== "creator" && !profile.tiktok_username && <section className="panel"><h2>Link your TikTok account</h2><p>The owner can link your TikTok username in Manager accounts to show your personal performance here.</p></section>}
       {current === "dashboard" && <Dashboard profile={dataProfile} record={currentRecord} dailyRecords={dailyRecords.filter((item) => cleanUsername(item.username) === cleanUsername(profile.tiktok_username || profile.username))} availableMonths={availableMonths} selectedMonth={effectiveMonth} setSelectedMonth={setSelectedMonth} upcomingBattle={upcomingBattle} records={records} onViewBattles={() => setCurrent("arrangedBattles")} />}
-      {current === "leaderboard" && <Leaderboard records={monthlyRecords} currentUsername={profile.username} availableMonths={availableMonths} selectedMonth={effectiveMonth} setSelectedMonth={setSelectedMonth} />}
+      {current === "leaderboard" && <Leaderboard records={monthlyRecords.filter(record => !record.leaderboard_hidden)} currentUsername={profile.username} availableMonths={availableMonths} selectedMonth={effectiveMonth} setSelectedMonth={setSelectedMonth} />}
       {current === "incentives" && <><Incentives record={currentRecord} /><Campaigns /></>}
       {current === "arrangedBattles" && <ArrangedBattles profile={profile} records={records} onBattlesChanged={() => refreshUpcomingBattle(profile)} />}
       {current === "managerChat" && <>{profile.role === "creator" ? <QuickManager profile={profile} /> : <StaffInbox profile={profile} />}<details className="panel combined-help"><summary><LifeBuoy size={18} /> Ban help</summary><BanHelp /></details></>}

@@ -5,6 +5,7 @@
 export type Role = "creator" | "manager" | "admin";
 
 export type CreatorMetric = {
+  leaderboard_hidden?: boolean;
   id?: number;
   username: string;
   data_period: string;

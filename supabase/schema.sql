@@ -503,3 +503,5 @@ end;
 $$;
 
 commit;
+
+alter table public.creator_metrics add column if not exists leaderboard_hidden boolean not null default false;
