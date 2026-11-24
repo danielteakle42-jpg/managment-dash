@@ -723,27 +723,25 @@ function Admin({
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [message, setMessage] = useState("");
-  const [changingVisibility, setChangingVisibility] = useState(false);
+  const [deletingCreator, setDeletingCreator] = useState(false);
   const [clearing, setClearing] = useState(false);
   const [query, setQuery] = useState("");
   const [editing, setEditing] = useState<CreatorMetric | null>(null);
-  async function toggleLeaderboard() {
-    if (!editing || !supabase || changingVisibility) return;
-    const hidden = !editing.leaderboard_hidden;
+  async function deleteCreator() {
+    if (!editing || !supabase || deletingCreator) return;
     const username = editing.username;
-    if (hidden && !window.confirm(`Remove @${username} from the leaderboard for all months? You can restore them here later.`)) return;
-    setChangingVisibility(true);
+    if (!window.confirm(`Delete @${username} from creator records and block their username from logging in? Future uploads will not add them back.`)) return;
+    setDeletingCreator(true);
     try {
-      const { error } = await supabase.from("creator_metrics")
-        .update({ leaderboard_hidden: hidden }).eq("username", username).select("username").single();
+      const { error } = await supabase.rpc("remove_creator_account", { target_username: username });
       if (error) throw error;
-      setEditing(current => current?.username === username ? { ...current, leaderboard_hidden: hidden } : current);
-      setMessage(`@${username} ${hidden ? "removed from" : "restored to"} the leaderboard.`);
+      setEditing(null);
+      setMessage(`@${username} deleted. Creator login is blocked.`);
       await refresh();
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Could not update the leaderboard. Please retry.");
     } finally {
-      setChangingVisibility(false);
+      setDeletingCreator(false);
     }
   }
 
@@ -979,8 +977,8 @@ function Admin({
           <label>LIVE minutes<input type="number" value={editing.live_minutes} onChange={(e) => setEditing({ ...editing, live_minutes: number(e.target.value) })} /></label>
           <label>Valid days<input type="number" value={editing.valid_live_days} onChange={(e) => setEditing({ ...editing, valid_live_days: number(e.target.value) })} /></label>
           <label>Profile picture URL<input type="url" value={editing.avatar_url || ""} onChange={(e) => setEditing({ ...editing, avatar_url: e.target.value })} placeholder="Optional override" /></label>
-          <button type="button" className={editing.leaderboard_hidden ? "secondary-button" : "danger-button"} disabled={changingVisibility} onClick={toggleLeaderboard}>{editing.leaderboard_hidden ? "Restore to leaderboard" : "Remove from leaderboard"}</button>
-          <button disabled={changingVisibility} className="primary-button">Save update</button><button type="button" className="icon-button" onClick={() => setEditing(null)}><X /></button>
+          <button type="button" className="danger-button" disabled={deletingCreator} onClick={deleteCreator}>Delete creator</button>
+          <button disabled={deletingCreator} className="primary-button">Save update</button><button type="button" className="icon-button" onClick={() => setEditing(null)}><X /></button>
         </form>
       )}
       <section className="panel table-panel admin-table-panel">
@@ -1043,7 +1041,7 @@ export default function Home() {
     if (loadError || !match) {
       setBusy(false);
       if (restoring) window.localStorage.removeItem("ppv_creator");
-      return setError(loadError?.message || "That creator username is not on the leaderboard yet.");
+      return setError(loadError?.message || "This username does not have creator access.");
     }
     if (dailyError) {
       setBusy(false);
@@ -1175,6 +1173,33 @@ export default function Home() {
     // Login restoration only runs once when the app first opens.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    const db = supabase;
+    if (!db || profile?.role !== "creator") return;
+    let active = true;
+    const checkAccess = async () => {
+      const { data, error } = await db.from("creator_metrics").select("username")
+        .eq("username", profile.username).maybeSingle();
+      if (active && !error && !data) {
+        window.localStorage.removeItem("ppv_creator");
+        setProfile(null);
+        setRecords([]);
+        setDailyRecords([]);
+        setUpcomingBattle(null);
+        setCurrent("dashboard");
+        setError("This username no longer has creator access.");
+      }
+    };
+    void checkAccess();
+    const timer = window.setInterval(checkAccess, 30000);
+    window.addEventListener("focus", checkAccess);
+    return () => {
+      active = false;
+      window.clearInterval(timer);
+      window.removeEventListener("focus", checkAccess);
+    };
+  }, [profile]);
 
   if (!profile) return <Login onAccessLogin={accessLogin} busy={busy} error={error} />;
 
