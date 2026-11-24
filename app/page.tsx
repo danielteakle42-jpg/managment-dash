@@ -331,15 +331,18 @@ function recordFromSpreadsheet(row: Record<string, unknown>): CreatorMetric | nu
 
 function Login({
   onAccessLogin,busy,error,
-}: {onAccessLogin:(credential:string)=>void;busy:boolean;error:string;}) {
+}: {onAccessLogin:(credential:string,password:string,staff:boolean)=>void;busy:boolean;error:string;}) {
   const [credential,setCredential]=useState("");
-  const submit=(event:FormEvent)=>{event.preventDefault();onAccessLogin(credential.trim());};
+  const [password,setPassword]=useState("");
+  const [staff,setStaff]=useState(false);
+  const submit=(event:FormEvent)=>{event.preventDefault();onAccessLogin(credential.trim(),password,staff);};
   return <main className="login-page"><div className="ambient ambient-one"/><div className="ambient ambient-two"/>
     <section className="login-art" aria-label="Platinum Pulse Network"><div className="login-art-copy"><span className="eyebrow"><Zap size={14}/> Creator performance hub</span><h1>Own your hours.<br/><span>Build your pulse.</span></h1><p>One focused place for your LIVE progress, rankings, incentives and active TikTok campaigns.</p><div className="trust-row"><span><ShieldCheck size={16}/> Private creator access</span><span><Sparkles size={16}/> Live performance insights</span></div></div></section>
-    <section className="login-panel"><form className="login-card" onSubmit={submit}><img src="/platinum-logo.jpg" alt="Platinum Pulse Network" className="login-logo"/><div className="login-heading"><p className="eyebrow">Welcome back</p><h2>Login</h2><p>Enter your TikTok username or your private access code.</p></div>
-      <label>TikTok username / access code<div className="input-wrap"><CircleUserRound size={18}/><input value={credential} onChange={e=>setCredential(e.target.value)} autoComplete="off" placeholder="TikTok username or access code" required/></div></label>
+    <section className="login-panel"><form className="login-card" onSubmit={submit}><img src="/platinum-logo.jpg" alt="Platinum Pulse Network" className="login-logo"/><div className="login-heading"><p className="eyebrow">Welcome back</p><h2>Login</h2><p>{staff ? "Enter your staff access code." : "Enter your TikTok username and creator password."}</p></div>
+      <label>{staff ? "Staff access code" : "TikTok username"}<div className="input-wrap"><CircleUserRound size={18}/><input type={staff ? "password" : "text"} value={credential} onChange={e=>setCredential(e.target.value)} autoComplete="off" placeholder={staff ? "Access code" : "@username"} required/></div></label>
+      {!staff && <label>Creator password<div className="input-wrap"><input type="password" value={password} onChange={e=>setPassword(e.target.value)} autoComplete="current-password" required/></div></label>}
       {error&&<p className="form-error">{error}</p>}<button className="primary-button" disabled={busy}>{busy?'Signing in…':'Access dashboard'}<ChevronRight size={18}/></button>
-      <p className="login-help">Creator access is matched to uploaded TikTok data. Management access stays separate from creator performance records.</p>
+      <button type="button" className="secondary-button" disabled={busy} onClick={()=>{setStaff(!staff);setCredential("");setPassword("");}}>{staff ? "Creator login" : "Admin / manager login"}</button>
     </form></section></main>;
 }
 
@@ -1024,36 +1027,11 @@ export default function Home() {
     else setDailyRecords((dailyData || []) as DailyMetric[]);
   };
 
-  const creatorLogin = async (username: string, restoring = false) => {
-    setError("");
-    if (!supabase) return setError("The database connection could not be started. Please contact management.");
-    setBusy(true);
-    const cleaned = cleanUsername(username);
-    const [{ data, error: loadError }, { data: dailyData, error: dailyError }] = await Promise.all([
-      supabase
-        .from("creator_metrics")
-        .select("*")
-        .order("diamonds", { ascending: false }),
-      fetchAllDailyMetrics(),
-    ]);
-    const creatorRecords = (data || []) as CreatorMetric[];
-    const match = creatorRecords.find((item) => cleanUsername(item.username) === cleaned);
-    if (loadError || !match) {
-      setBusy(false);
-      if (restoring) window.localStorage.removeItem("ppv_creator");
-      return setError(loadError?.message || "This username does not have creator access.");
-    }
-    if (dailyError) {
-      setBusy(false);
-      return setError(`Creator totals loaded, but daily data could not be read: ${dailyError.message}`);
-    }
-    const next: Profile = { username: match.username, display_name: match.username, role: "creator" };
-    window.localStorage.setItem("ppv_creator", match.username);
-    setRecords(creatorRecords);
-    setDailyRecords((dailyData || []) as DailyMetric[]);
+  const openCreator = async (username: string) => {
+    const next: Profile = { username, display_name: username, role: "creator" };
+    await loadData(next);
     setProfile(next);
     setCurrent("dashboard");
-    setBusy(false);
     void refreshUpcomingBattle(next);
   };
 
@@ -1108,13 +1086,24 @@ export default function Home() {
     } catch (e) { setBusy(false); setError(e instanceof Error ? e.message : "Manager login failed."); }
   };
 
-  const accessLogin = async (credential: string) => {
+  const accessLogin = async (credential: string, password: string, staff: boolean) => {
     const value = credential.trim();
     if (!value) return setError("Enter your TikTok username or staff access password.");
     setError("");
     if (!supabase) return setError("The global database is not connected yet.");
     setBusy(true);
     try {
+      if (!staff) {
+        const response = await fetch("/api/creator-login", {
+          method: "POST", headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username: value, password }),
+        });
+        const result = await response.json();
+        if (!response.ok || !result.username) throw new Error(result.error || "Creator login failed.");
+        await openCreator(result.username);
+        setBusy(false);
+        return;
+      }
       // Staff passwords are checked first. They are Supabase Auth passwords and are never stored in creator data.
       const staffResponse = await fetch("/api/staff-login", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ password: value }) });
       const staffResult = await staffResponse.json();
@@ -1136,9 +1125,7 @@ export default function Home() {
         window.localStorage.removeItem("ppv_creator"); setProfile(next); setCurrent("admin"); await loadData(next); setBusy(false); return;
       }
 
-      // Otherwise treat the value as a creator username and validate it against uploaded creator_metrics.
-      setBusy(false);
-      await creatorLogin(value);
+      throw new Error("Check your staff access code.");
     } catch (e) {
       setBusy(false);
       setError(e instanceof Error ? e.message : "Login failed.");
@@ -1146,6 +1133,7 @@ export default function Home() {
   };
 
   const logout = async () => {
+    await fetch("/api/creator-login", { method: "DELETE" });
     if (supabase) await supabase.auth.signOut();
     window.localStorage.removeItem("ppv_creator");
     setProfile(null);
@@ -1158,7 +1146,11 @@ export default function Home() {
   useEffect(() => {
     if (!supabase) return;
     supabase.auth.getSession().then(async ({ data }) => {
-      if (!data.session) return;
+      if (!data.session) {
+        const response = await fetch("/api/creator-login", {cache: "no-store"});
+        if (response.ok) await openCreator((await response.json()).username);
+        return;
+      }
       const { data: found } = await supabase!.from("profiles").select("*").eq("id", data.session.user.id).single();
       if (found) {
         const next = found as Profile;
@@ -1167,9 +1159,7 @@ export default function Home() {
         await loadData(next);
       }
     });
-    const savedCreator = window.localStorage.getItem("ppv_creator");
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    if (savedCreator) void creatorLogin(savedCreator, true);
+    window.localStorage.removeItem("ppv_creator");
     // Login restoration only runs once when the app first opens.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -1179,9 +1169,9 @@ export default function Home() {
     if (!db || profile?.role !== "creator") return;
     let active = true;
     const checkAccess = async () => {
-      const { data, error } = await db.from("creator_metrics").select("username")
-        .eq("username", profile.username).maybeSingle();
-      if (active && !error && !data) {
+      const response = await fetch("/api/creator-login", {cache: "no-store"}).catch(() => null);
+      if (!response) return;
+      if (active && (response.status === 401 || (response.ok && (await response.json()).username !== profile.username))) {
         window.localStorage.removeItem("ppv_creator");
         setProfile(null);
         setRecords([]);

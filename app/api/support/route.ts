@@ -1,3 +1,4 @@
+import { currentCreator } from "../creator-login/session";
 import { NextResponse } from 'next/server';
 import { serverClient, staffFromRequest } from '../_server';
 const clean=(v:unknown)=>String(v||'').trim().replace(/^@/,'').toLowerCase();
@@ -5,6 +6,7 @@ export async function GET(request:Request){
  try { const url=new URL(request.url); const staff=await staffFromRequest(request); const creator=clean(url.searchParams.get('creator'));
   const db=serverClient();
   if(staff){ const {data,error}=await db.from('support_messages').select('*').order('created_at',{ascending:true}); if(error) throw error; return NextResponse.json({messages:data||[]}); }
+  if (!staff && (!creator || await currentCreator() !== creator)) return NextResponse.json({error:"Creator sign-in required."},{status:401});
   if(!creator) return NextResponse.json({error:'Creator required.'},{status:400});
   const {data,error}=await db.from('support_messages').select('*').eq('creator_username',creator).order('created_at',{ascending:true}); if(error) throw error;
   return NextResponse.json({messages:data||[]});
@@ -12,6 +14,7 @@ export async function GET(request:Request){
 }
 export async function POST(request:Request){
  try { const body=await request.json(); const db=serverClient(); const staff=await staffFromRequest(request); const creator=clean(body.creator); const text=String(body.message||'').trim();
+  if (!staff && (!creator || await currentCreator() !== creator)) return NextResponse.json({error:"Creator sign-in required."},{status:401});
   if(!creator||!text) return NextResponse.json({error:'Creator and message are required.'},{status:400});
   const sender=staff?staff.role:'creator'; const senderName=staff?(staff.display_name||staff.username):creator;
   const {data,error}=await db.from('support_messages').insert({creator_username:creator,sender_role:sender,sender_name:senderName,message:text}).select().single(); if(error) throw error;
